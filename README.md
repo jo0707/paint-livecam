@@ -1,17 +1,52 @@
-# Paint LiveCam 🎨
+# Finger Drawing Application
 
-Paint LiveCam adalah aplikasi interaktif berbasis Python yang memungkinkan pengguna menggambar di layar secara real-time menggunakan ujung jari telunjuk yang terdeteksi melalui kamera. Aplikasi ini memanfaatkan **MediaPipe** untuk pelacakan tangan dan wajah, memungkinkan pengguna membuat coretan bebas atau menggambar aksesoris seperti kacamata dan topi yang mengikuti pergerakan wajah. Aplikasi ini juga dilengkapi dengan pilihan warna, ketebalan pena, serta efek suara (SFX) untuk setiap aksi penting.
+An interactive application that allows you to draw on your webcam feed using your finger. The app tracks your index finger and enables drawing when your finger tip is positioned above your finger base. If your drawings end up in front of your face, they will automatically follow your face movements.
 
-## Fitur Utama
+## Features
 
--   Deteksi tangan dan wajah menggunakan MediaPipe.
--   Menggambar menggunakan ujung jari telunjuk.
--   Gambar yang bisa dikunci mengikuti wajah.
--   Pemilihan warna dan ukuran pena.
--   Efek suara untuk setiap aksi (mengganti warna, undo, simpan, dll).
--   Output video real-time.
+-   Hand tracking to detect finger positions
+-   Drawing is enabled when your finger tip is above its base
+-   Face detection
+-   Drawings near your face will move with your face
+-   Interactive canvas with real-time feedback
 
----
+## Requirements
+
+-   Python 3.8 or higher
+-   OpenCV
+-   MediaPipe
+-   NumPy
+
+## Installation
+
+1. Clone this repository
+2. Install the required dependencies:
+    ```
+    pip install -r requirements.txt
+    ```
+
+## Usage
+
+Run the main script:
+
+```
+python main.py
+```
+
+### Controls:
+
+-   Position your index finger tip above its base to start drawing
+-   Lower your finger tip below its base to stop drawing
+-   Press 'q' to quit the application
+
+## How It Works
+
+The application uses:
+
+-   MediaPipe's Hand Landmarks model to track your finger positions
+-   MediaPipe's Face Detection model to detect and track your face
+-   OpenCV for image processing and visualization
+-   A custom drawing canvas that updates in real-time
 
 ## 👨‍💻 Anggota Kelompok
 
@@ -25,46 +60,26 @@ Paint LiveCam adalah aplikasi interaktif berbasis Python yang memungkinkan pengg
 
 ### Week 1 (5 - 11 Mei 2025)
 
--   Pembuatan Repository
+- Pembuatan Repository
 
 ### Week 2 (12 - 18 Mei 2025)
 
--
+- Implementasi pelacakan tangan menggunakan MediaPipe
+- Implementasi fitur gambar mengikuti gerakan wajah
+- Mekanisme menggambar dengan jari telunjuk
+- UI untuk reset, save, pemilihan warna, ukuran kuas
+- File konfigurasi untuk aplikasi
 
 ### Week 3 (19 - 25 Mei 2025)
 
--
+TODO
+- Implementasi Optical Flow Lucas-Kanade untuk pelacakan jari
+- Fitur save menyimpan kamera dan gambar
+- sfx untuk menggambar dan tombol
+
 
 ### Week 4 (26 - 30 Mei 2025)
 
 -   ***
-
-## ⚙️ Instalasi
-
-1. Clone repository ini:
-
-    ```bash
-    git clone https://github.com/jo0707/paint-livecam.git
-    cd paint-livecam
-    ```
-
-2. Aktifkan virtual environment (opsional):
-
-    ```bash
-    uv venv
-    source venv/bin/activate  # Linux/Mac
-    .venv\Scripts\activate    # Windows
-    ```
-
-3. Instal dependensi:
-
-    ```bash
-    uv pip install -r requirements.txt
-    ```
-
-4. Jalankan aplikasi:
-    ```bash
-    python main.py
-    ```
 
 ## 📚 Referensi
