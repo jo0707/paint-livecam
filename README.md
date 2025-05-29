@@ -76,12 +76,9 @@ TODO
 - Implementasi Optical Flow Lucas-Kanade untuk pelacakan jari
 - sfx untuk menggambar dan tombol
 
-DONE
-- Fitur save menyimpan kamera dan gambar
-
 
 ### Week 4 (26 - 30 Mei 2025)
 
--   ***
+- Fitur save menyimpan kamera dan gambar
 
 ## 📚 Referensi
