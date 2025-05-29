@@ -1,6 +1,8 @@
 import cv2
 import time
 import numpy as np
+import os
+from datetime import datetime
 
 import configurations as config
 from drawing_canvas import DrawingCanvas
@@ -38,6 +40,7 @@ def main():
     print("- Press '+' to increase window scale")
     print("- Press '-' to decrease window scale")
     print("- Press 'q' to quit")
+    print("- Press 's' to save a screenshot")
     print("--------------------------------\n")
     
     # Main loop
@@ -68,7 +71,10 @@ def main():
         img, faces = face_detector.find_faces(img)
         face_center = faces[0]['center'] if faces else None
         
-        # Check if drawings are near face
+        # Update face information for the drawing canvas
+        drawing_canvas.update_faces(faces)
+        
+        # Check if drawings are near face and adjust face-following lines
         if faces and drawing_canvas.check_drawing_near_face(faces[0]):
             drawing_canvas.adjust_drawings_to_face(face_center)
         
@@ -99,6 +105,8 @@ def main():
             
             # Check for button interactions with pinky finger
             if pinky_tip:
+                # Store current camera image in drawing canvas for saving
+                drawing_canvas.current_camera_img = img.copy()
                 drawing_canvas.check_button_press(pinky_tip, 20)
             
             # Update button cooldown
@@ -113,7 +121,11 @@ def main():
                     else:
                         drawing_canvas.continue_drawing(index_tip)
                 else:
-                    drawing_canvas.stop_drawing()
+                    # Pass the last drawing point when stopping
+                    drawing_canvas.stop_drawing(index_tip)
+        else:
+            # Stop drawing if no hands detected
+            drawing_canvas.stop_drawing()
         
         # Draw the canvas onto the image
         drawing_canvas.draw_on_canvas()
@@ -131,9 +143,15 @@ def main():
         # Display info about drawing color and thickness
         color_name = [c for c, v in drawing_canvas.colors.items() if v == drawing_canvas.drawing_color][0]
         cv2.putText(img, f"Color: {color_name}", 
-                   (10, img.shape[0] - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+                   (10, img.shape[0] - 90), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         cv2.putText(img, f"Thickness: {drawing_canvas.line_thickness}", 
-                   (10, img.shape[0] - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+                   (10, img.shape[0] - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        
+        # Display face following mode
+        mode_color = (0, 255, 0) if drawing_canvas.current_face_mode == "following" else (0, 0, 255)
+        mode_text = f"Mode: {drawing_canvas.current_face_mode.upper()}"
+        cv2.putText(img, mode_text, 
+                   (10, img.shape[0] - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, mode_color, 2)
         
         # Display FPS
         if config.SHOW_FPS:
@@ -164,6 +182,13 @@ def main():
         elif key == ord('-'):
             scale_factor = max(0.5, scale_factor - 0.1)  # Don't go below 0.5
             print(f"Scale factor decreased to {scale_factor:.1f}")
+        
+        # Save screenshot when 's' is pressed
+        elif key == ord('s'):
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"screenshot_{timestamp}.png"
+            cv2.imwrite(filename, img)
+            print(f"Screenshot saved as {filename}")
         
         # Quit application when 'q' is pressed
         elif key == ord('q'):
