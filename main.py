@@ -1,7 +1,6 @@
+
 import cv2
 import time
-import numpy as np
-import os
 from datetime import datetime
 
 import configurations as config
@@ -10,170 +9,184 @@ from face_tracker import FaceTracker
 from hand_tracker import HandTracker
 from sound_manager import play_background
 
-def main():
-    """Main function to run the application."""
-    # Initialize video capture
-    cap = cv2.VideoCapture(1)
+
+class PaintLivecam:
+    """Main application class that manages the paint livecam functionality."""
     
-    # Get video dimensions
-    success, img = cap.read()
-    if not success:
-        print("Failed to capture image from camera.")
-        return
+    def __init__(self):
+        """Initialize camera, trackers, and canvas."""
+        # Initialize camera
+        self.cap = cv2.VideoCapture(1)
+        if not self.cap.isOpened():
+            raise RuntimeError("Failed to open camera")
+        
+        # Get camera dimensions
+        _, sample_frame = self.cap.read()
+        h, w = sample_frame.shape[:2]
+        
+        # Initialize components
+        self.hand_tracker = HandTracker()
+        self.face_tracker = FaceTracker()
+        self.canvas = DrawingCanvas(w, h)
+        
+        # Setup display window
+        cv2.namedWindow(config.WINDOW_NAME, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(config.WINDOW_NAME, *config.WINDOW_SIZE)
+        
+        # Performance tracking
+        self.fps_time = 0
+        
+        # Start background music
+        play_background()
+        self._print_instructions()
     
-    h, w, c = img.shape
+    def _print_instructions(self):
+        """Display usage instructions to console."""
+        print("\n" + "="*50)
+        print("PAINT LIVECAM - Ready to Draw!")
+        print("="*50)
+        print("🎨 Drawing:")
+        print("   • Index finger (tip above base) = Draw")
+        print("   • Pinky finger = Click UI buttons")
+        print("\n🎭 Features:")
+        print("   • Drawings follow your face movement")
+        print("   • Multiple colors and brush sizes")
+        print("\n⌨️  Controls:")
+        print("   • 'i' = Toggle UI visibility")
+        print("   • 'q' = Quit")
+        print("="*50 + "\n")
     
-    # Initialize modules
-    hand_tracker = HandTracker()
-    face_detector = FaceTracker()
-    drawing_canvas = DrawingCanvas(w, h)
+    def _extract_finger_positions(self, landmarks):
+        """Extract index tip, index base, and pinky tip positions from hand landmarks."""
+        positions = {'index_tip': None, 'index_base': None, 'pinky_tip': None}
+        
+        for landmark_id, x, y in landmarks:
+            if landmark_id == 8:    # Index finger tip
+                positions['index_tip'] = (x, y)
+            elif landmark_id == 7:  # Index finger base (MCP)
+                positions['index_base'] = (x, y)
+            elif landmark_id == 20: # Pinky finger tip
+                positions['pinky_tip'] = (x, y)
+        
+        return positions
     
-    # Set up window with desired size
-    cv2.namedWindow(config.WINDOW_NAME, cv2.WINDOW_NORMAL)
-    cv2.resizeWindow(config.WINDOW_NAME, config.WINDOW_SIZE[0], config.WINDOW_SIZE[1])
+    def _draw_finger_indicators(self, img, positions):
+        """Draw visual indicators on detected finger positions."""
+        if positions['index_tip']:
+            cv2.circle(img, positions['index_tip'], 10, (255, 0, 255), cv2.FILLED)
+        if positions['pinky_tip']:
+            cv2.circle(img, positions['pinky_tip'], 8, (0, 255, 255), cv2.FILLED)
     
-    # Display instructions
-    print("\Paint Livecam Instructions:")
-    print("--------------------------------")
-    print("- Draw with your index finger (tip must be above base)")
-    print("- Click buttons with your pinky finger")
-    print("- Press 'i' to show/hide UI elements")
-    print("- Press 'q' to quit")
-    print("- Press 's' to save a screenshot")
-    print("--------------------------------\n")
+    def _process_hand_input(self, positions):
+        """Process hand gestures for drawing and UI interaction."""
+        # Handle pinky finger UI interaction
+        if positions['pinky_tip']:
+            self.canvas.process_finger_input(positions['pinky_tip'], 20)
+        
+        # Handle index finger drawing (only when tip is above base)
+        if positions['index_tip'] and positions['index_base']:
+            if positions['index_tip'][1] < positions['index_base'][1]:  # Tip above base
+                self.canvas.process_finger_input(positions['index_tip'], 8)
+            else:
+                self.canvas.stop_drawing(positions['index_tip'])
     
-    # Main loop
-    pTime = 0
-    
-    play_background()
-    
-    while True:
-        # Read frame from camera
-        success, img = cap.read()
-        if not success:
-            print("Failed to capture image from camera.")
-            break
+    def _render_ui_info(self, img):
+        """Render current color, thickness, and FPS information on image."""
+        h = img.shape[0]
         
-        # Flip the image horizontally for a more intuitive experience
-        img = cv2.flip(img, 1)
+        # Current drawing settings
+        color_name = next(name for name, color in self.canvas.colors.items() 
+                         if color == self.canvas.drawing_color)
+        cv2.putText(img, f"Color: {color_name}", (10, h - 90), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        cv2.putText(img, f"Thickness: {self.canvas.line_thickness}", (10, h - 60), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         
-        # Find hands
-        img = hand_tracker.find_hands(img)
-        hand_landmarks = hand_tracker.find_position(img)
-        
-        # Find faces
-        img, faces = face_detector.find_faces(img)
-        face_center = faces[0]['center'] if faces else None
-        
-        # Update face information for the drawing canvas
-        drawing_canvas.update_faces(faces)
-        
-        # Check if drawings are near face and adjust face-following lines
-        if faces and drawing_canvas.check_drawing_near_face(faces[0]):
-            drawing_canvas.adjust_drawings_to_face(face_center)
-        
-        # Process hand landmarks
-        if hand_landmarks:
-            # Index finger tip and base landmarks
-            index_tip = None
-            index_base = None
-            # Pinky finger tip for button interactions
-            pinky_tip = None
-            
-            for lm in hand_landmarks:
-                # Index tip
-                if lm[0] == 8:
-                    index_tip = (lm[1], lm[2])
-                    cv2.circle(img, index_tip, 6, (255, 0, 255), cv2.FILLED)
-                
-                # index first book
-                if lm[0] == 7:
-                    index_base = (lm[1], lm[2])
-                
-                # Pinky tip is landmark 20
-                if lm[0] == 20:
-                    pinky_tip = (lm[1], lm[2])
-                    cv2.circle(img, pinky_tip, 6, (0, 255, 255), cv2.FILLED)
-            
-            # Check for button interactions with pinky finger
-            if pinky_tip:
-                drawing_canvas.current_camera_img = img.copy()
-                drawing_canvas.check_button_press(pinky_tip, 20)
-            
-            # Update button cooldown
-            drawing_canvas.update_cooldown()
-            
-            # Check if drawing should be enabled
-            if index_tip and index_base:
-                # Drawing is enabled if tip y is less than base y (tip is above base)
-                if index_tip[1] < index_base[1]:
-                    if not drawing_canvas.is_drawing:
-                        drawing_canvas.start_drawing(index_tip)
-                    else:
-                        drawing_canvas.continue_drawing(index_tip)
-                else:
-                    # Pass the last drawing point when stopping
-                    drawing_canvas.stop_drawing(index_tip)
-        else:
-            # Stop drawing if no hands detected
-            drawing_canvas.stop_drawing()
-        
-        # Draw the canvas onto the image
-        drawing_canvas.draw_on_canvas()
-        
-        img = cv2.addWeighted(img, 0.8, drawing_canvas.canvas, config.CANVAS_OPACITY, 0)
-        
-        # Draw buttons on the image
-        img = drawing_canvas.draw_buttons(img)
-        
-        # Display info about drawing color and thickness
-        color_name = [c for c, v in drawing_canvas.colors.items() if v == drawing_canvas.drawing_color][0]
-        cv2.putText(img, f"Color: {color_name}", 
-                   (10, img.shape[0] - 90), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        cv2.putText(img, f"Thickness: {drawing_canvas.line_thickness}", 
-                   (10, img.shape[0] - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        
-        
-        # Display FPS
+        # FPS display
         if config.SHOW_FPS:
-            cTime = time.time()
-            fps = 1 / (cTime - pTime) if 'pTime' in locals() else 0
-            pTime = cTime
-            
-            cv2.putText(img, 'FPS: 30', 
-                      (10, 30), 
-                      cv2.FONT_HERSHEY_SIMPLEX, 
-                      0.6, 
-                      (0, 255, 0), 
-                      2)
-        
-        # Handle keyboard input
+            current_time = time.time()
+            fps = 1 / (current_time - self.fps_time) if self.fps_time else 0
+            self.fps_time = current_time
+            cv2.putText(img, f'FPS: {int(fps)}', (10, 30), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+    
+    def _handle_keyboard_input(self):
+        """Process keyboard commands and return True to continue, False to quit."""
         key = cv2.waitKey(1) & 0xFF
         
-        # Toggle UI visibility when 'i' is pressed
-        if key == ord('i'):
-            drawing_canvas.toggle_ui_visibility()
+        if key == ord('q'):
+            return False
+        elif key == ord('i'):
+            self.canvas.toggle_ui()
         
-        # Save screenshot when 's' is pressed
-        elif key == ord('s'):
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"screenshot_{timestamp}.png"
-            cv2.imwrite(filename, img)
-            print(f"Screenshot saved as {filename}")
-        
-        # Quit application when 'q' is pressed
-        elif key == ord('q'):
-            break
-        
-        # Resize the image to fit the window
-        display_img = cv2.resize(img, config.WINDOW_SIZE)
-        
-        # Display the image
-        cv2.imshow(config.WINDOW_NAME, display_img)
+        return True
     
-    # Release resources
-    cap.release()
-    cv2.destroyAllWindows()
+    def run(self):
+        """Main application loop."""
+        try:
+            while True:
+                # Capture and prepare frame
+                success, img = self.cap.read()
+                if not success:
+                    print("Camera disconnected!")
+                    break
+                
+                img = cv2.flip(img, 1)  # Mirror for intuitive interaction
+                
+                # Detect hands and faces
+                img = self.hand_tracker.find_hands(img)
+                hand_landmarks = self.hand_tracker.find_position(img)
+                img, faces = self.face_tracker.find_faces(img)
+                
+                # Update canvas with face information
+                self.canvas.update_faces(faces)
+                if faces:
+                    self.canvas.update_with_face_movement(faces[0]['center'])
+                
+                # Process hand input
+                if hand_landmarks:
+                    self.canvas.current_camera_img = img.copy()  # For saving
+                    positions = self._extract_finger_positions(hand_landmarks)
+                    self._draw_finger_indicators(img, positions)
+                    self._process_hand_input(positions)
+                else:
+                    self.canvas.stop_drawing()
+                
+                # Render drawing and UI
+                self.canvas.draw_on_canvas()
+                img = cv2.addWeighted(img, 0.8, self.canvas.canvas, config.CANVAS_OPACITY, 0)
+                img = self.canvas.draw_ui(img)
+                
+                # Add information overlay
+                self._render_ui_info(img)
+                
+                # Handle keyboard input
+                if not self._handle_keyboard_input():
+                    break
+                
+                # Display result
+                display_img = cv2.resize(img, config.WINDOW_SIZE)
+                cv2.imshow(config.WINDOW_NAME, display_img)
+        
+        finally:
+            self.cleanup()
+    
+    def cleanup(self):
+        """Release resources and close windows."""
+        self.cap.release()
+        cv2.destroyAllWindows()
+        print("Application closed successfully!")
+
+
+def main():
+    """Application entry point."""
+    try:
+        app = PaintLivecam()
+        app.run()
+    except KeyboardInterrupt:
+        print("\nApplication interrupted by user")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":

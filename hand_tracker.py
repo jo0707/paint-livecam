@@ -45,7 +45,7 @@ class HandTracker:
         
         if self.results.multi_hand_landmarks:
             my_hand = self.results.multi_hand_landmarks[0]  # Only using the first hand
-            h, w, c = img.shape
+            h, w, _ = img.shape
             for id, lm in enumerate(my_hand.landmark):
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 hand_landmarks.append([id, cx, cy])

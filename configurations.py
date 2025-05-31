@@ -13,7 +13,7 @@ SHOW_FPS = True
 # Hand tracking configuration
 SHOW_HAND_LANDMARKS = True  # Show hand skeleton lines
 MAX_HANDS = 1  # Maximum number of hands to track
-HAND_DETECTION_CONFIDENCE = 0.7  # Minimum confidence for hand detection
+HAND_DETECTION_CONFIDENCE = 0.5  # Minimum confidence for hand detection
 HAND_TRACKING_CONFIDENCE = 0.5  # Minimum confidence for hand tracking
 
 # Face tracking configuration
