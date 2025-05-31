@@ -349,8 +349,14 @@ INPUT C:\Users\Jo\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmex10.tfm
 INPUT C:\Users\Jo\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex8.tfm
 INPUT C:\Users\Jo\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT C:\Users\Jo\AppData\Local\Programs\MiKTeX\tex\latex\graphics\color.sty
-OUTPUT report.out
+INPUT .\report.out
+INPUT .\report.out
+INPUT report.out
+INPUT report.out
 OUTPUT report.pdf
+INPUT .\report.out
+INPUT .\report.out
+OUTPUT report.out
 INPUT .\Figure\ifitera-header.png
 INPUT .\Figure\ifitera-header.png
 INPUT .\Figure\ifitera-header.png

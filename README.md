@@ -12,7 +12,7 @@ An interactive application that allows you to draw on your webcam feed using you
 
 ## Requirements
 
--   Python 3.8 or higher
+-   Python 3.10 or higher
 -   OpenCV
 -   MediaPipe
 -   NumPy
