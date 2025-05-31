@@ -4,6 +4,7 @@ import numpy as np
 import time
 import os
 import configurations as config
+from sound_manager import play_click, play_writing
 
 
 class Button:
@@ -153,6 +154,8 @@ class DrawingCanvas:
             if button.is_clicked(point):
                 button.is_pressed = True
                 self.button_cooldown = self.cooldown_duration
+                # Play click sound when button is pressed
+                play_click()
                 button.action()
                 return True
             else:
@@ -216,6 +219,7 @@ class DrawingCanvas:
     def start_drawing(self, point):
         """Start a new drawing segment with current color, thickness, and face mode."""
         self.is_drawing = True
+        
         # Create new segment with current properties and face mode
         new_segment = {
             'points': [point],
@@ -233,6 +237,8 @@ class DrawingCanvas:
     def continue_drawing(self, point):
         """Continue drawing the current segment."""
         if self.is_drawing and self.drawing_segments:
+            # Play writing sound while drawing (with cooldown to prevent spam)
+            play_writing()
             self.drawing_segments[-1]['points'].append(point)
     
     def stop_drawing(self, end_point=None):
@@ -274,17 +280,13 @@ class DrawingCanvas:
         
         self.is_drawing = False
     
-    def _check_point_near_any_face(self, point, point_radius=50):
+    def _check_point_near_any_face(self, point):
         """Check if a point is near any detected face."""
-        # This will be called from main.py with face information
-        # For now, we'll store the last known faces and check against them
-        if hasattr(self, '_current_faces') and self._current_faces:
+        if hasattr(self, '_current_faces'):
             for face in self._current_faces:
                 x, y, w, h = face['bbox']
-                face_area = (x-point_radius, y-point_radius, x+w+point_radius, y+h+point_radius)
-                
-                if (face_area[0] <= point[0] <= face_area[2] and 
-                    face_area[1] <= point[1] <= face_area[3]):
+                if (x <= point[0] <= x + w and 
+                    y <= point[1] <= y + h):
                     return True
         return False
     

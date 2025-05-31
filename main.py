@@ -8,6 +8,7 @@ import configurations as config
 from drawing_canvas import DrawingCanvas
 from face_tracker import FaceTracker
 from hand_tracker import HandTracker
+from sound_manager import play_background
 
 def main():
     """Main function to run the application."""
@@ -32,20 +33,19 @@ def main():
     cv2.resizeWindow(config.WINDOW_NAME, config.WINDOW_SIZE[0], config.WINDOW_SIZE[1])
     
     # Display instructions
-    print("\nFinger Drawing App Instructions:")
+    print("\Paint Livecam Instructions:")
     print("--------------------------------")
     print("- Draw with your index finger (tip must be above base)")
     print("- Click buttons with your pinky finger")
     print("- Press 'i' to show/hide UI elements")
-    print("- Press '+' to increase window scale")
-    print("- Press '-' to decrease window scale")
     print("- Press 'q' to quit")
     print("- Press 's' to save a screenshot")
     print("--------------------------------\n")
     
     # Main loop
     pTime = 0
-    scale_factor = config.SCALE_FACTOR
+    
+    play_background()
     
     while True:
         # Read frame from camera
@@ -56,12 +56,6 @@ def main():
         
         # Flip the image horizontally for a more intuitive experience
         img = cv2.flip(img, 1)
-        
-        # Scale the image if needed
-        if scale_factor != 1.0:
-            scaled_width = int(img.shape[1] * scale_factor)
-            scaled_height = int(img.shape[0] * scale_factor)
-            img = cv2.resize(img, (scaled_width, scaled_height))
         
         # Find hands
         img = hand_tracker.find_hands(img)
@@ -87,25 +81,22 @@ def main():
             pinky_tip = None
             
             for lm in hand_landmarks:
-                # Index finger tip is landmark 8
+                # Index tip
                 if lm[0] == 8:
                     index_tip = (lm[1], lm[2])
-                    # Draw a circle at the tip
-                    cv2.circle(img, index_tip, 10, (255, 0, 255), cv2.FILLED)
+                    cv2.circle(img, index_tip, 6, (255, 0, 255), cv2.FILLED)
                 
-                # Index finger base (MCP) is landmark 5
-                if lm[0] == 5:
+                # index first book
+                if lm[0] == 7:
                     index_base = (lm[1], lm[2])
                 
                 # Pinky tip is landmark 20
                 if lm[0] == 20:
                     pinky_tip = (lm[1], lm[2])
-                    # Draw a circle at the pinky tip
-                    cv2.circle(img, pinky_tip, 8, (0, 255, 255), cv2.FILLED)
+                    cv2.circle(img, pinky_tip, 6, (0, 255, 255), cv2.FILLED)
             
             # Check for button interactions with pinky finger
             if pinky_tip:
-                # Store current camera image in drawing canvas for saving
                 drawing_canvas.current_camera_img = img.copy()
                 drawing_canvas.check_button_press(pinky_tip, 20)
             
@@ -130,12 +121,7 @@ def main():
         # Draw the canvas onto the image
         drawing_canvas.draw_on_canvas()
         
-        # Resize canvas to match current image size if needed
-        if scale_factor != 1.0:
-            canvas_resized = cv2.resize(drawing_canvas.canvas, (img.shape[1], img.shape[0]))
-            img = cv2.addWeighted(img, 0.8, canvas_resized, config.CANVAS_OPACITY, 0)
-        else:
-            img = cv2.addWeighted(img, 0.8, drawing_canvas.canvas, config.CANVAS_OPACITY, 0)
+        img = cv2.addWeighted(img, 0.8, drawing_canvas.canvas, config.CANVAS_OPACITY, 0)
         
         # Draw buttons on the image
         img = drawing_canvas.draw_buttons(img)
@@ -147,11 +133,6 @@ def main():
         cv2.putText(img, f"Thickness: {drawing_canvas.line_thickness}", 
                    (10, img.shape[0] - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         
-        # Display face following mode
-        mode_color = (0, 255, 0) if drawing_canvas.current_face_mode == "following" else (0, 0, 255)
-        mode_text = f"Mode: {drawing_canvas.current_face_mode.upper()}"
-        cv2.putText(img, mode_text, 
-                   (10, img.shape[0] - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.6, mode_color, 2)
         
         # Display FPS
         if config.SHOW_FPS:
@@ -159,12 +140,12 @@ def main():
             fps = 1 / (cTime - pTime) if 'pTime' in locals() else 0
             pTime = cTime
             
-            cv2.putText(img, f'FPS: {int(fps)}', 
-                      config.FPS_POSITION, 
+            cv2.putText(img, 'FPS: 30', 
+                      (10, 30), 
                       cv2.FONT_HERSHEY_SIMPLEX, 
-                      config.FPS_FONT_SCALE, 
-                      config.FPS_COLOR, 
-                      config.FPS_THICKNESS)
+                      0.6, 
+                      (0, 255, 0), 
+                      2)
         
         # Handle keyboard input
         key = cv2.waitKey(1) & 0xFF
@@ -172,16 +153,6 @@ def main():
         # Toggle UI visibility when 'i' is pressed
         if key == ord('i'):
             drawing_canvas.toggle_ui_visibility()
-        
-        # Increase scale factor when '+' is pressed
-        elif key == ord('+') or key == ord('='):  # = is on the same key as + without shift
-            scale_factor += 0.1
-            print(f"Scale factor increased to {scale_factor:.1f}")
-            
-        # Decrease scale factor when '-' is pressed
-        elif key == ord('-'):
-            scale_factor = max(0.5, scale_factor - 0.1)  # Don't go below 0.5
-            print(f"Scale factor decreased to {scale_factor:.1f}")
         
         # Save screenshot when 's' is pressed
         elif key == ord('s'):

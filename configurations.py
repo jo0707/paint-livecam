@@ -4,16 +4,11 @@ This module contains various settings that can be adjusted to customize the appl
 """
 
 # Display configuration
-WINDOW_NAME = "Finger Drawing App"
+WINDOW_NAME = "Paint LiveCam"
 WINDOW_SIZE = (860, 640)  # Default window size (width, height)
-SCALE_FACTOR = 1.0  # Image scaling factor (1.0 = original size)
 
 # FPS display configuration
 SHOW_FPS = True
-FPS_COLOR = (0, 255, 0)  # Green
-FPS_POSITION = (10, 30)
-FPS_FONT_SCALE = 0.6
-FPS_THICKNESS = 2
 
 # Hand tracking configuration
 SHOW_HAND_LANDMARKS = True  # Show hand skeleton lines
@@ -28,7 +23,7 @@ FACE_DETECTION_CONFIDENCE = 0.5  # Minimum confidence for face detection
 # Drawing settings
 DEFAULT_DRAWING_COLOR = (0, 255, 255)  # Default: Yellow
 DEFAULT_LINE_THICKNESS = 4
-CANVAS_OPACITY = 0.5  # Canvas overlay opacity (0.0 to 1.0)
+CANVAS_OPACITY = 1  # Canvas overlay opacity (0.0 to 1.0)
 
 # UI configuration
 SHOW_UI_BY_DEFAULT = True  # Show buttons and UI elements by default
