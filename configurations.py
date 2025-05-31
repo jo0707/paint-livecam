@@ -7,6 +7,9 @@ This module contains various settings that can be adjusted to customize the appl
 WINDOW_NAME = "Paint LiveCam"
 WINDOW_SIZE = (860, 640)  # Default window size (width, height)
 
+# Camera Index
+CAMERA_INDEX = 1  # Default camera index (0 for primary camera)
+
 # FPS display configuration
 SHOW_FPS = True
 
@@ -46,7 +49,7 @@ DRAWING_COLORS = {
     "Purple": (255, 0, 255),
     "Orange": (0, 165, 255),
     "White": (255, 255, 255),
-    "Black": (0, 0, 0),
+    "Black": (1, 1, 1),
 }
 
 # Line thickness options

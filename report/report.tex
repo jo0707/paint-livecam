@@ -6,9 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%% PACKAGE starts HERE %%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{graphicx}
 \usepackage{caption}
-\usepackage{microtype}
-\captionsetup[table]{name=Tabel}
-\captionsetup[figure]{name=Gambar}
+\usepackage[protrusion=true, expansion=false]{microtype}
 \usepackage{tabulary}
 \usepackage{minted}
 % \usepackage{amsmath}
@@ -40,10 +38,10 @@
 \usepackage{listings}
 \usepackage{xcolor} 
 % custom color & style for listing
-\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegreen}{rgb}{0,0.3,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codepurple}{rgb}{0.7,0,0.7}
+\definecolor{backcolour}{rgb}{0.9,0.9,0.9}
 \definecolor{LightGray}{gray}{0.9}
 \lstdefinestyle{mystyle}{
 	backgroundcolor=\color{backcolour},   
@@ -64,19 +62,14 @@
 	tabsize=2
 }
 \lstset{style=mystyle}
-\renewcommand{\lstlistingname}{Kode}
+\renewcommand{\lstlistingname}{code}
 %%%%%%%%%%%%%%%%%%%%%%%%% PACKAGE ends HERE %%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Data Diri %%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\student}{\textbf{
-\begin{enumerate}
-    \item Ikhsannudin Lathief (122140137)
-    \item Rustian Afencius Marbun (122140155)
-    \item Eden Wijaya (122140187)
-\end{enumerate}
-}}
-\newcommand{\course}{\textbf{Sistem/Teknologi Multimedia (IF4021)}}
+\newcommand{\student}{\textbf{Joshua Palti Sinaga (122140141)}}
+\newcommand{\course}{\textbf{Teknologi Multimedia (IF4021)}}
+\newcommand{\assignment}{\textbf{Tugas Besar}}
 
 %%%%%%%%%%%%%%%%%%% using theorem style %%%%%%%%%%%%%%%%%%%%
 \newtheorem{thm}{Theorem}
@@ -90,9 +83,9 @@
 \usepackage{lipsum}%% a garbage package you don't need except to create examples.
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\lhead{Ikhsannudin Lathief (122140137), Rustian Afencius Marbun (122140155), Eden Wijaya (122140187)}
+\lhead{Joshua Palti Sinaga (122140141)}
 \rhead{ \thepage}
-\cfoot{\textbf{Suaraku Terbang}}
+\cfoot{\textbf{Paint LiveCam}}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -114,853 +107,342 @@
 \end{center}
 \noindent
 \rule{17cm}{0.2cm}\\[0.3cm]
-Mata Kuliah: \course \hfill Tugas: \textbf{Tugas Besar}\\
-Nama: \student \hfill \\[0.1cm]
+Nama: \student \hfill Tugas Ke: \assignment\\[0.1cm]
+Mata Kuliah: \course \hfill Tanggal: 31 Mei 2025\\
 \rule{17cm}{0.05cm}
 \vspace{0.1cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BODY DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{center}
-    \section*{Suaraku Terbang}
-    \subsection*{Program Filter \textit{Tiktok} Menggunakan Python}
+    \section*{Paint LiveCam}
+    \subsection*{Aplikasi Menggambar Interaktif dengan \textit{Computer Vision}}
 \end{center}
 \vspace{0.5cm}
 
-\section{Pendahuluan}
-\subsection{Latar Belakang}
-Proyek besar dengan judul "Suaraku Terbang" ini merupakan tugas akhir dari mata kuliah Sistem/Teknologi Multimedia (IF4021). Proyek ini menggunakan konsep dasar permainan yang dikontrol oleh suara (frekuensi tinggi dan frekuensi rendah). Program ini dibangun dengan menggunakan bahasa pemrograman Python dan menggunakan beberapa library seperti numpy, opencv, mediapipe, sound device, time, dan threading. 
+\section{Deskripsi Proyek}
 
-Secara sederhana, Suaraku Terbang ini terinspirasi dari game \textit{flappy bird}, namun objek bergerak berdasarkan frekuensi suara yang ditangkap. Suaraku terbang memiliki objek berbentuk bola, jika menangkap suara dengan frekuensi tinggi, maka objek bola akan bergerak naik, jika menangkap suara dengan frekuensi rendah, maka objek bola akan bergerak turun. Selain itu, terdapat 2 pembatas pada atas dan bawah, serta memiliki 5 tingkatan level, 2 pembatas tersebut akan semakin kecil jika berhasil naik level. Ketika bola menyenentuh pembatas, maka user akan kalah dan Suaraku Terbang akan berakhir.
+Paint LiveCam merupakan aplikasi menggambar interaktif yang memanfaatkan teknologi \textit{computer vision} untuk memberikan pengalaman menggambar yang unik. Berbeda dengan aplikasi drawing konvensional yang menggunakan mouse atau stylus, aplikasi Paint LiveCam memungkinkan pengguna untuk menggambar langsung menggunakan gerakan jari tangan mereka melalui kamera webcam secara real-time. Dengan mengintegrasikan teknologi \textit{hand tracking} dan \textit{face detection} dari MediaPipe, proyek ini bertujuan untuk untuk menciptakan pengalaman menggambar yang interaktif terhadap pergerakan pengguna.
 
-\subsection{Rumusan Masalah}
-Berdasarkan latar belakang diatas, umusan masalah pada proyek ini ialah : 
-\begin{enumerate}
-    \item Bagaimana merancang dan mengimplementasikan sistem deteksi frekuensi suara secara real-time yang mampu membedakan antara frekuensi tinggi dan rendah untuk mengontrol gerakan objek dalam permainan?
-    \item Bagaimana cara mengintegrasikan library Python seperti numpy, OpenCV, MediaPipe, dan SoundDevice untuk membangun fungsionalitasdan logika permainan?
-    \item Bagaimana sistem tingkatan level dalam proyek "Suaraku Terbang" dapat diimplementasikan untuk memberikan tantangan yang terus meningkat?,
-\end{enumerate}
+Aplikasi ini dibaungn dengan memiliki fitur-fitur seperti menggambar dengan gesture jari telunjuk ketika posisi ujung jari berada di atas ruas jari, kontrol UI menggunakan jari tengah, dan yang paling unik adalah fitur dimana gambar yang dibuat di dekat area wajah akan mengikuti pergerakan kepala pengguna secara real-time. 
 
-\subsection{Tujuan}
-Adapun tujuan dari proyek "Suaraku Terbang" ini ialah:
-\begin{enumerate}
-    \item Mengimplementasikan sistem deteksi frekuensi suara real-time untuk membedakan input suara frekuensi tinggi dan rendah
-    \item Membangun sebuah permainan "Suaraku Terbang" yang interaktif, di mana gerakan objek bola dikendalikan sepenuhnya oleh frekuensi suara pengguna (naik untuk frekuensi tinggi, turun untuk frekuensi rendah).
-    \item Mengintegrasikan berbagai library Python untuk menciptakan pemrosesan audio, logika permainan, deteksi tabrakan, dan antarmuka visual.
-\end{enumerate}
+\section{Teknologi yang Digunakan}
 
-\section{Alat dan Bahan}
-Proyek "Suaraku Terbang" ini dikembangkan dengan menggunakan bahasa pemrograman Python dan library untuk mendukung fungsionalitasnya. Berikut adalah alat dan bahan yang digunakan:
-\subsection{Bahasa Pemrograman dan Lingkup Pengembangan}
-\begin{enumerate}
-    \item Bahasa pemrograman yang dipakai untuk membuat proyek ini adalaha bahasa pemrograman Python, tepatnya Python 3.10.
-    \item Visual Studio Code sebagai text editor untuk pengembangan
-\end{enumerate}
+Proyek Paint LiveCam dikembangkan menggunakan berbagai teknologi dan library modern untuk mendukung fungsionalitas computer vision dan interaksi real-time:
 
-\subsection{Library}
-\begin{enumerate}
-    \item opencv-python 4.11.0.86, yang digunakan untuk pemrosesan gambar dan antarmuka visual
-    \item mediapipe 0.10.21, 
-    \item sounddevice 0.5.1, yang digunakan untuk menangkap dan memproses input audio
-    \item time dan threading, yang digunakan untuk manajemen waktu dalam permainan.
-\end{enumerate}
-
-\subsection{Metode dan Algoritma}
-\begin{enumerate}
-    \item 
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{Python}: Bahasa pemrograman utama untuk pengembangan aplikasi
+    \item \textbf{OpenCV (cv2)}: Library untuk pemrosesan gambar, manipulasi video, rendering antarmuka visual, dan operasi computer vision
+    \item \textbf{MediaPipe}: Framework Google AI untuk hand tracking (deteksi 21 landmark jari) dan face detection dengan akurasi tinggi
+    \item \textbf{NumPy}: Library untuk operasi array matematika dan manipulasi data gambar secara efisien
+    \item \textbf{pygame}: Framework untuk manajemen audio dan efek suara
+\end{itemize}
 
 \section{Penjelasan Program}
 \subsection{Arsitektur Umum dan Struktur File}
-\subsection{Alur Kerja Utama Filter}
-\subsection{Modul Inti dan Fungsinya}
-\subsubsection{Pemrosesan Audio}
-\subsubsection{Deteksi Wajah dan Overlay Kacamata}
-\subsubsection{Konfigurasi Global}
-\subsubsection{Logika Permainan (\texttt{game\_logic.py} dan \texttt{main.py})}
-Modul ini bertanggung jawab atas mekanisme inti permainan, seperti pergerakan objek utama (bola), perhitungan skor, sistem level, dan deteksi tabrakan.
+Aplikasi Paint LiveCam dibangun secara modular dengan cara membuat file terpisah untuk masing-masing fungsi program:
 
 \begin{itemize}
-\item Deteksi Tabrakan (\texttt{game\_logic.py})
-
-\paragraph{Fungsi check\_collision\_with\_barriers}
-Fungsi ini bertugas untuk mendeteksi apakah bola bersentuhan dengan penghalang atas atau bawah. Fungsi ini menerima informasi mengenai posisi dan dimensi bola, posisi vertikal kedua penghalang, serta ketebalan penghalang. Pertama, batas vertikal bola dihitung. Kemudian, dilakukan pemeriksaan tabrakan. Bola dianggap bertabrakan dengan penghalang atas jika sisi atasnya menyentuh atau melewati batas bawah penghalang atas. Bola dianggap bertabrakan dengan penghalang bawah jika sisi bawahnya menyentuh atau melewati batas atas penghalang bawah. Fungsi ini akan mengembalikan status benar jika salah satu kondisi tabrakan terpenuhi, dan status salah jika tidak ada tabrakan.
-
-\begin{lstlisting}[language=Python, caption=Fungsi check\_collision\_with\_barriers]
-"""
-File Logika Inti Game.
-Berisi fungsi-fungsi yang menangani mekanika dasar permainan,
-seperti deteksi tabrakan antara bola dan penghalang.
-"""
-
-def check_collision_with_barriers(ball_x, ball_y, ball_width, ball_height, top_barrier_y, bottom_barrier_y, barrier_thickness):
-"""
-Memeriksa apakah bola bertabrakan dengan penghalang atas atau bawah.
-Mengembalikan True jika terjadi tabrakan, False jika tidak.
-"""
-ball_top = ball_y  # Sisi atas bola
-ball_bottom = ball_y + ball_height # Sisi bawah bola
-
-# Periksa tabrakan dengan penghalang atas
-# Bola dianggap bertabrakan jika sisi atasnya menyentuh atau melewati sisi bawah penghalang atas
-if ball_top <= top_barrier_y + barrier_thickness: # top_barrier_y adalah garis atas dari penghalang atas
-return True
-
-# Periksa tabrakan dengan penghalang bawah
-# Bola dianggap bertabrakan jika sisi bawahnya menyentuh atau melewati sisi atas penghalang bawah
-if ball_bottom >= bottom_barrier_y: # bottom_barrier_y adalah garis atas dari penghalang bawah
-return True
-
-return False # Tidak ada tabrakan
-\end{lstlisting}
-\item Pergerakan Bola (\texttt{main.py})
-\newline Pergerakan bola dikendalikan oleh input suara yang terdeteksi. Jika ada input suara yang valid, bola akan bergerak maju secara horizontal dengan kecepatan tertentu. Kecepatan vertikal bola juga ditentukan. Jika suara yang terdeteksi bernada rendah, bola akan bergerak ke bawah. Sebaliknya, jika suara bernada tinggi, bola akan bergerak ke atas.
-\begin{lstlisting}[language=Python, caption=Logika pergerakan bola]
-# ...existing code...
-                # Logika pergerakan bola
-                ball_speed_vertical = 3 # Kecepatan vertikal bola
-                ball_speed_horizontal = 3 # Kecepatan horizontal bola
-
-                if config.sound_direction != "neutral": # Jika ada input suara
-                    center_x_ball += ball_speed_horizontal # Bola bergerak ke kanan
-                    if config.sound_direction == "down": 
-                        center_y_ball += ball_speed_vertical # Suara rendah, bola ke bawah
-                    elif config.sound_direction == "up": 
-                        center_y_ball -= ball_speed_vertical # Suara tinggi, bola ke atas
-# ...existing code...
-\end{lstlisting}
-\item Perhitungan Skor (\texttt{main.py})
-\newline Skor untuk level saat ini dihitung berdasarkan seberapa jauh bola telah bergerak secara horizontal melintasi area permainan. Progresi dihitung dari posisi horizontal bola. Skor ini bersifat proporsional terhadap jarak yang ditempuh bola dalam level tersebut, dengan batas maksimal 100 poin per level. Jika lebar area permainan adalah nol, skor level ini juga nol.
-\begin{lstlisting}[language=Python, caption=Logika perhitungan skor]
-# ...existing code...
-                # Hitung skor untuk level ini berdasarkan posisi x bola
-                if game_view_actual_width > 0:
-                    progress_in_level_pixels = max(0, center_x_ball) 
-                    # Skor proporsional dengan jarak tempuh, maks 100
-                    config.score_this_level = int((progress_in_level_pixels / game_view_actual_width) * 100)
-                    config.score_this_level = min(config.score_this_level, 100) # Batasi maksimal 100
-                else:
-                    config.score_this_level = 0
-# ...existing code...
-\end{lstlisting}
-\item Progres Level (\texttt{main.py})
-\newline Pemain dianggap menyelesaikan sebuah level ketika sisi kanan bola mencapai atau melewati batas kanan area permainan. Jika level saat ini belum merupakan level maksimal, skor dari level yang baru diselesaikan akan ditambahkan ke skor total. Kemudian, nomor level dinaikkan, skor untuk level tersebut direset menjadi nol, dan sebuah efek visual untuk menandakan naik level diaktifkan. Jika level maksimal telah tercapai, skor akhir dihitung. Setelah menyelesaikan level, posisi bola direset ke posisi awal, dan jejak visual bola sebelumnya dibersihkan.
-\begin{lstlisting}[language=Python, caption=Logika progres level]
-# ...existing code...
-                # Cek jika bola mencapai ujung kanan (level selesai)
-                if center_x_ball + resized_ball_img.shape[1] >= game_view_actual_width:
-                    if config.current_level < config.max_level: # Jika belum level maks
-                        config.current_score += config.score_this_level # Tambah skor level ini ke total
-                        config.score_this_level = 0 # Reset skor untuk level baru
-                        config.current_level += 1   # Naik level
-                        config.level_up_flash = 60  # Aktifkan efek kilat naik level
-                        print(f"Level Up! Current Level: {config.current_level}, Total Score: {config.current_score}")
-                    else: # Jika sudah level maks
-                        config.current_score += config.score_this_level 
-                        config.score_this_level = 0 
-                        print(f"Max Level Reached! Final Score: {config.current_score}")
-                        # Bisa tambahkan logika menang di sini
-                    # Reset posisi bola untuk level baru atau setelah level maks
-                    center_x_ball = 0
-                    center_y_ball = actual_height // 2 - resized_ball_img.shape[0] // 2
-                    config.ball_trail.clear() # Hapus jejak bola
-# ...existing code...
-\end{lstlisting}
-\item Penanganan Tabrakan (\texttt{main.py})
-\newline Pada setiap frame permainan, dilakukan pengecekan tabrakan antara bola dan penghalang. Posisi vertikal penghalang atas dan bawah ditentukan berdasarkan pengaturan level saat ini. Jika tabrakan terdeteksi dan periode jeda setelah tabrakan sebelumnya sudah habis, maka status permainan akan diatur menjadi berakhir, skor akhir dihitung, dan sebuah efek visual untuk menandakan tabrakan diaktifkan. Jika periode jeda tabrakan masih aktif, durasinya akan dikurangi.
-\begin{lstlisting}[language=Python, caption=Logika penanganan tabrakan]
-# ...existing code...
-                # Dapatkan pengaturan penghalang untuk level saat ini
-                top_barrier_factor, bottom_barrier_factor = config.level_barrier_settings[config.current_level]
-                top_barrier_pos_y = int(actual_height * top_barrier_factor)
-                bottom_barrier_pos_y = int(actual_height * bottom_barrier_factor)
-                barrier_line_thickness = 3
-                
-                # Cek tabrakan dengan penghalang
-                if collision_cooldown_timer <= 0: # Hanya cek jika tidak dalam cooldown
-                    if game_logic.check_collision_with_barriers(
-                        center_x_ball, center_y_ball, resized_ball_img.shape[1], 
-                        resized_ball_img.shape[0], top_barrier_pos_y, bottom_barrier_pos_y, barrier_line_thickness
-                    ):
-                        final_score_at_collision = config.current_score + config.score_this_level
-                        print(f"Collision! Game Over. Final Score: {final_score_at_collision}")
-                        config.collision_flash = 30 # Aktifkan efek kilat tabrakan
-                        config.game_over = True     # Set status game over
-                else:
-                    collision_cooldown_timer -= 1 # Kurangi timer cooldown
-# ...existing code...
-\end{lstlisting}
-\item Batasan Posisi Bola (\texttt{main.py})
-\newline Untuk memastikan bola tetap berada dalam area permainan yang terlihat, posisinya dibatasi. Posisi vertikal bola dibatasi agar tidak melewati batas atas atau batas bawah layar. Demikian pula, posisi horizontal bola dibatasi agar tidak keluar dari sisi kiri atau sisi kanan area permainan.
-\begin{lstlisting}[language=Python, caption=Logika batasan posisi bola]
-# ...existing code...
-                # Batasi posisi bola agar tetap di dalam layar game view
-                center_y_ball = max(0, min(center_y_ball, actual_height - resized_ball_img.shape[0]))
-# ...existing code...
-                # Pastikan bola tidak keluar dari batas kiri game view setelah reset
-                center_x_ball = max(0, min(center_x_ball, game_view_actual_width - resized_ball_img.shape[1]))
-# ...existing code...
-\end{lstlisting}
+\item \texttt{main.py}: File utama yang mengatur alur utama aplikasi dan menyelaraskan interaksi antar modul
+\item \texttt{hand\_tracker.py}: Modul untuk deteksi dan tracking gerakan tangan
+\item \texttt{face\_tracker.py}: Modul untuk deteksi dan tracking wajah
+\item \texttt{drawing\_canvas.py}: Modul untuk manajemen canvas dan UI controls
+\item \texttt{sound\_manager.py}: Modul untuk manajemen audio dan efek suara
+\item \texttt{configurations.py}: File konfigurasi untuk seluruh pengaturan aplikasi
 \end{itemize}
 
-\subsubsection{Penggambaran Visual dan UI}
-Modul ini bertanggung jawab untuk semua elemen visual yang dilihat pemain, mulai dari layar awal, antarmuka saat bermain, hingga layar game over, termasuk penggambaran bola, penghalang, dan efek-efek visual lainnya.
-
-\begin{itemize}
-\item \texttt{visuals\_utils.py}
-\newline File ini berisi fungsi-fungsi dasar yang membantu dalam proses penggambaran elemen-elemen grafis.
-\begin{itemize}
-\item Fungsi \texttt{overlay\_transparent} digunakan untuk menempatkan gambar yang memiliki transparansi, seperti gambar kacamata atau bola, di atas gambar latar belakang. Ia menghitung bagaimana piksel dari gambar overlay harus dicampur dengan piksel gambar latar belakang berdasarkan tingkat transparansi overlay.
-\begin{itemize}
-\item Logika Penanganan Batas
-\newline Sebelum melakukan blending, fungsi ini memastikan bahwa area overlay tidak keluar dari batas gambar latar belakang. Jika overlay sebagian berada di luar, ia akan dipotong (cropped) agar hanya bagian yang valid yang diproses.
-\begin{lstlisting}[language=Python, caption= Logika penanganan batas]
-# ...existing code...
-    # Menangani jika overlay dimulai di luar batas kiri atau atas background
-    if x < 0: 
-        overlay_crop_x_start = -x 
-        w_eff += x 
-        x = 0
-    if y < 0: 
-        overlay_crop_y_start = -y 
-        h_eff += y 
-        y = 0
-
-    if w_eff <= 0 or h_eff <= 0: # Jika lebar atau tinggi efektif menjadi nol atau negatif
-        return background
-    
-    # Menangani jika overlay melewati batas kanan atau bawah background
-    if x + w_eff > bw:
-        w_eff = bw - x
-    if y + h_eff > bh:
-        h_eff = bh - y
-        
-    if w_eff <= 0 or h_eff <= 0: # Cek ulang setelah penyesuaian batas
-        return background
-
-    # Crop bagian overlay yang akan ditampilkan
-    overlay_to_blend = overlay [
-        int(overlay_crop_y_start) : int(overlay_crop_y_start + h_eff),
-        int(overlay_crop_x_start) : int(overlay_crop_x_start + w_eff)
-    ]
-# ...existing code...
-\end{lstlisting}
-\item Logika Blending Alpha
-\newline Bagian inti dari fungsi ini adalah pencampuran warna piksel overlay dengan piksel background berdasarkan nilai alpha (transparansi) dari overlay. Rumus umumnya adalah: blended\_color = overlay\_color * alpha + background\_color * (1 - alpha).
-\begin{lstlisting}[language=Python, caption=Logika blending alpha]
-# ...existing code...
-    # Proses blending
-    alpha_overlay = overlay_to_blend[:, :, 3:] / 255.0 # Normalisasi alpha channel overlay
-    color_overlay_pixels = overlay_to_blend[:, :, :3]  # Ambil channel warna (RGB) overlay
-    
-    bg_region_color = bg_region
-    if bg_region.shape[2] == 4: # Jika background juga punya alpha, ambil RGB-nya saja
-        bg_region_color = bg_region[:, :, :3]
-
-    # Rumus blending alpha
-    blended_color = color_overlay_pixels * alpha_overlay + bg_region_color * (1.0 - alpha_overlay)
-    
-    background[bg_y_start:bg_y_end, bg_x_start:bg_x_end, :3] = blended_color.astype(np.uint8)
-
-    # Jika background memiliki alpha channel, update juga alpha channel-nya (opsional, tergantung kebutuhan)
-    if background.shape[2] == 4:
-        alpha_bg = bg_region[:, :, 3:] / 255.0 if bg_region.shape[2] == 4 else np.zeros_like(alpha_overlay)
-        new_alpha_bg = alpha_overlay + alpha_bg * (1.0 - alpha_overlay)
-        background[bg_y_start:bg_y_end, bg_x_start:bg_x_end, 3] = (new_alpha_bg * 255).astype(np.uint8)
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-
-\item Fungsi \texttt{draw\_rounded\_rectangle} digunakan untuk menggambar persegi panjang dengan sudut yang membulat, sering dipakai untuk membuat elemen UI yang terlihat lebih modern dan halus.
-\begin{itemize}
-\item Logika Penggambaran Sudut dan Sisi (Outline)
-\newline Jika tidak diisi (filled=False), fungsi ini menggambar empat garis lurus untuk sisi-sisi persegi panjang dan empat busur (menggunakan cv2.ellipse) untuk membuat sudut yang membulat.
-\begin{lstlisting}[language=Python, caption=Logika penggambaran sudut dan sisi]
-# ...existing code...
-    else: # Menggambar outline
-        # Garis lurus
-        cv2.line(img, (x1+radius, y1), (x2-radius, y1), color, thickness) # Atas
-        cv2.line(img, (x1+radius, y2), (x2-radius, y2), color, thickness) # Bawah
-        cv2.line(img, (x1, y1+radius), (x1, y2-radius), color, thickness) # Kiri
-        cv2.line(img, (x2, y1+radius), (x2, y2-radius), color, thickness) # Kanan
-        # Sudut (ellipse/arc)
-        cv2.ellipse(img, (x1+radius, y1+radius), (radius, radius), 180, 0, 90, color, thickness) # Kiri Atas
-        cv2.ellipse(img, (x2-radius, y1+radius), (radius, radius), 270, 0, 90, color, thickness) # Kanan Atas
-        cv2.ellipse(img, (x1+radius, y2-radius), (radius, radius), 90, 0, 90, color, thickness)  # Kiri Bawah
-        cv2.ellipse(img, (x2-radius, y2-radius), (radius, radius), 0, 0, 90, color, thickness)   # Kanan Bawah
-# ...existing code...
-\end{lstlisting}
-
-\item Logika Penggambaran Area Terisi (Filled)
-\newline Jika filled=True, fungsi ini membuat sebuah mask terlebih dahulu. Mask ini diisi dengan menggambar dua persegi panjang di tengah dan empat lingkaran di sudut-sudut. Kemudian, area pada gambar utama yang sesuai dengan mask ini diisi dengan warna yang ditentukan.
-\begin{lstlisting}[language=Python, caption=Logika penggambaran area terisi]
-# ...existing code...
-if filled:
-    # Membuat mask untuk area yang diisi
-    mask = np.zeros(img.shape[:2], dtype=np.uint8)
-    # Bagian tengah rectangle
-    cv2.rectangle(mask, (x1+radius, y1), (x2-radius, y2), 255, -1)
-    cv2.rectangle(mask, (x1, y1+radius), (x2, y2-radius), 255, -1)
-    # Sudut-sudut tumpul (lingkaran)
-    cv2.circle(mask, (x1+radius, y1+radius), radius, 255, -1)
-    cv2.circle(mask, (x2-radius, y1+radius), radius, 255, -1)
-    cv2.circle(mask, (x1+radius, y2-radius), radius, 255, -1)
-    cv2.circle(mask, (x2-radius, y2-radius), radius, 255, -1)
-    
-    # Mengaplikasikan warna pada area yang di-mask
-    # Perlu penanganan jika img adalah RGBA
-    if img.shape[2] == 3:
-        img[mask == 255] = color
-    elif img.shape[2] == 4: # Jika RGBA, asumsikan color adalah (B,G,R) dan alpha 255
-        img[mask == 255, :3] = color[:3]
-        img[mask == 255, 3] = color[3] if len(color) == 4 else 255
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-\item Fungsi \texttt{draw\_gradient\_panel}
-\newline Fungsi ini membuat panel dengan efek gradasi warna
-\begin{itemize}
-\item Logika Pembuatan Gradasi dan Penggambaran
-\newline Gradasi dibuat secara linear dari satu warna ke warna lain sepanjang sumbu vertikal panel. Ini dicapai dengan menggunakan np.linspace untuk menghasilkan serangkaian nilai antara 0 dan 1, yang kemudian digunakan untuk menginterpolasi antara warna awal dan warna akhir. Setiap baris piksel dalam panel kemudian digambar dengan warna hasil interpolasi tersebut.
-\begin{lstlisting}[language=Python, caption=Logika pembuatan gradasi dan penggambaran]
-# ...existing code...
-    # Membuat gradien linear dari color1 ke color2
-    gradient = np.linspace(0, 1, y2-y1).reshape(-1, 1) # Array dari 0 ke 1 sejumlah tinggi panel
-    gradient_rgb = gradient * np.array(color2) + (1-gradient) * np.array(color1) # Interpolasi warna
-    
-    # Menggambar garis horizontal dengan warna gradien
-    for i in range(y2-y1):
-        color = tuple(map(int, gradient_rgb[i])) # Konversi warna ke tuple integer
-        cv2.rectangle(overlay, (x1, y1+i), (x2, y1+i+1), color, -1) # Gambar garis setebal 1px
-# ...existing code...
-\end{lstlisting}
-\item Logika Transparansi
-\newline Setelah panel gradasi digambar pada gambar overlay sementara, cv2.addWeighted digunakan untuk mencampurkannya dengan gambar img asli, dengan mempertimbangkan nilai alpha yang diberikan untuk transparansi.
-\begin{lstlisting}[language=Python, caption=Logika transparansi]
-# ...existing code...
-    # Mengaplikasikan transparansi
-    cv2.addWeighted(overlay, alpha, img, 1-alpha, 0, img)
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-
-\item Fungsi \texttt{draw\_glassmorphism\_panel}
-\newline Menciptakan efek panel seperti kaca buram (glassmorphism).
-\begin{itemize}
-\item Logika Ekstraksi dan Pemburaman Latar Belakang
-\newline Bagian dari gambar utama yang akan menjadi latar belakang panel diekstrak. Kemudian, efek blur Gaussian diterapkan pada region ini. Kekuatan blur disesuaikan agar tidak menyebabkan error jika region terlalu kecil.
-\begin{lstlisting}[language=Python, caption=Logika ekstraksi dan pemburaman latar belakang]
-# ...existing code...
-    bg_region = img[y1:y2, x1:x2].copy() # Ekstrak region latar belakang
-    
-    # Sesuaikan kekuatan blur jika region terlalu kecil
-    # ... (penyesuaian blur_strength) ...
-
-    if bg_region.shape[0] > 0 and bg_region.shape[1] > 0: # Hanya proses jika region valid
-        blurred = cv2.GaussianBlur(bg_region, (blur_strength, blur_strength), 0) # Aplikasikan blur
-# ...existing code...
-\end{lstlisting}
-\item Logika Pembuatan Overlay Kaca dan Blending
-\newline Sebuah overlay dengan warna dasar (agak gelap dengan sedikit tint biru-abu) dibuat. Overlay ini kemudian dicampur dengan latar belakang yang sudah diburamkan menggunakan cv2.addWeighted untuk menciptakan efek kaca. Hasilnya kemudian ditempatkan kembali ke gambar utama.
-\begin{lstlisting}[language=Python, caption=Logika pembuatan overlay kaca dan blending]
-# ...existing code...
-        # Membuat overlay putih semi-transparan untuk efek kaca
-        overlay_color = np.ones_like(blurred) * 40 # Base color (gelap)
-        overlay_color[:, :, 0] = 60  # Sedikit tint biru-abu
-        overlay_color[:, :, 1] = 60
-        overlay_color[:, :, 2] = 80
-        
-        # Blend overlay dengan background yang sudah diblur
-        glass_effect = cv2.addWeighted(blurred, 1-alpha, overlay_color, alpha, 0)
-        
-        img[y1:y2, x1:x2] = glass_effect # Timpa region di gambar utama
-# ...existing code...
-\end{lstlisting}
-\item Logika Penambahan Border dan Inner Glow
-\newline Untuk memperjelas panel, sebuah border tipis digambar di sekelilingnya. Efek "inner glow" (cahaya di dalam border) juga ditambahkan dengan menggambar border lain yang lebih tipis di bagian dalam dan mencampurkannya dengan gambar panel dengan alpha rendah.
-\begin{lstlisting}[language=Python, caption=Logika penambahan border dan inner glow]
-# ...existing code...
-        # Tambahkan border tipis untuk memperjelas panel
-        border_color_val = color_schemes["primary"] # Ambil dari config
-        cv2.rectangle(img, (x1, y1), (x2, y2), border_color_val, 2)
-        
-        # Tambahkan inner glow (efek cahaya di dalam border)
-        inner_overlay = img.copy()
-        cv2.rectangle(inner_overlay, (x1+2, y1+2), (x2-2, y2-2), border_color_val, 1) # Border lebih tipis di dalam
-        cv2.addWeighted(img, 0.9, inner_overlay, 0.1, 0, img) # Blend dengan alpha rendah
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-\end{itemize}
-\item \texttt{visuals.py}
-\newline File ini menggunakan utilitas dari \texttt{visuals\_utils.py} untuk membuat komponen visual filter.
-\begin{itemize}
-\item Fungsi \texttt{draw\_start\_screen}
-\newline Fungsi ini bertanggung jawab untuk merender tampilan layar awal permainan. Ini mencakup latar belakang animasi, panel utama dengan efek glassmorphism, judul permainan dengan efek glow yang berdenyut, dan daftar instruksi cara bermain.
-\begin{itemize}
-\item Panel Utama dan Judul dengan Efek Glow
-\newline Panel utama digambar menggunakan visuals\_utils.draw\_glassmorphism\_panel. Judul "SUARAKU TERBANG" kemudian ditampilkan di atas panel ini. Untuk memberikan efek visual yang menarik, judul memiliki efek glow (cahaya) yang intensitasnya beranimasi (berdenyut) menggunakan fungsi sinus dari waktu. Efek glow ini dicapai dengan menggambar teks beberapa kali dengan ketebalan dan transparansi yang sedikit berbeda.
-\begin{lstlisting}[language=Python, caption=Panel utama dan judul]
-# ...existing code...
-def draw_start_screen(width, height):
-    """Membuat gambar untuk layar awal (start screen) game."""
-    start_img = np.zeros((height, width, 3), dtype=np.uint8) # Latar hitam
-    
-    draw_animated_background(start_img, width, height) # Latar belakang animasi
-    
-    # Panel utama start screen
-    panel_width_start = min(500, width - 40)
-    panel_height_start = min(400, height - 40) # Sesuaikan tinggi jika perlu
-    panel_x_start = (width - panel_width_start) // 2
-    panel_y_start = (height - panel_height_start) // 2
-    
-    if panel_width_start > 10 and panel_height_start > 10: # Pastikan panel valid
-        visuals_utils.draw_glassmorphism_panel(start_img, (panel_x_start, panel_y_start), 
-                                       (panel_x_start + panel_width_start, panel_y_start + panel_height_start), 
-                                       blur_strength=15, alpha=0.4)
-    
-    # Judul Game
-    title_y_start = panel_y_start + 80 # Naikkan sedikit judul
-    title_text_start = "SUARAKU TERBANG"
-    (w_title, h_title), _ = cv2.getTextSize(title_text_start, cv2.FONT_HERSHEY_SIMPLEX, 1.5, 3)
-    
-    # Efek glow animasi untuk judul
-    glow_intensity_start = abs(np.sin(time.time() * 2)) # Intensitas glow berdenyut
-    for i in range(3): # Beberapa layer glow
-        glow_alpha_start = (0.5 - i * 0.1) * glow_intensity_start
-        overlay_title = start_img.copy()
-        cv2.putText(overlay_title, title_text_start, (panel_x_start + (panel_width_start - w_title) // 2, title_y_start), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 1.5, config.color_schemes["primary"], 4 + i*2) # Glow lebih tebal
-        cv2.addWeighted(start_img, 1-glow_alpha_start, overlay_title, glow_alpha_start, 0, start_img)
-    
-    cv2.putText(start_img, title_text_start, (panel_x_start + (panel_width_start - w_title) // 2, title_y_start), 
-               cv2.FONT_HERSHEY_SIMPLEX, 1.5, config.color_schemes["text_primary"], 3)
-    
-    # Daftar Instruksi
-    instructions_start = [
-        "Voice-Controlled Ball Game",
-        "", # Spasi
-        "How to play:",
-        "• High pitch sounds = Move UP",
-        "• Low pitch sounds = Move DOWN", 
-        "• Navigate through barriers",
-        "• Reach the end to level up!",
-        "• Avoid hitting barriers to keep score",
-        "", # Spasi
-        "Press SPACE to start"
-    ]
-    
-    instruction_y_start_offset = title_y_start + h_title + 20 # Mulai instruksi di bawah judul
-    line_height_instr = 25 # Jarak antar baris instruksi
-    for instr_line in instructions_start:
-        if instr_line: # Jika baris tidak kosong
-            font_scale_instr = 0.6 if "Voice-Controlled" in instr_line else 0.5
-            text_color_instr = config.color_schemes["text_primary"] if "Voice-Controlled" in instr_line else config.color_schemes["text_secondary"]
-            thickness_instr = 2 if "Voice-Controlled" in instr_line else 1
-            (w_instr_line, _), _ = cv2.getTextSize(instr_line, cv2.FONT_HERSHEY_SIMPLEX, font_scale_instr, thickness_instr)
-            cv2.putText(start_img, instr_line, (panel_x_start + (panel_width_start - w_instr_line) // 2, instruction_y_start_offset), 
-                       cv2.FONT_HERSHEY_SIMPLEX, font_scale_instr, text_color_instr, thickness_instr)
-        instruction_y_start_offset += line_height_instr # Pindah ke baris berikutnya
-    
-    return start_img
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-\item Fungsi \texttt{draw\_split\_interface}
-\newline Fungsi ini mengatur tata letak utama selama permainan berlangsung. Layar dibagi menjadi dua bagian: area tampilan game di sisi kiri dan panel informasi di sisi kanan. Panel informasi menampilkan berbagai data seperti frekuensi suara, skor, level, dan kontrol audio. Fungsi ini juga menangani efek visual kilatan pada area game saat terjadi tabrakan atau pemain naik level, serta memicu penambahan partikel.
-\begin{lstlisting}[language=Python, caption=Fungsi draw\_split\_interface]
-def draw_split_interface(img, width, height, fps, score, level, sound_info, sound_direction, collision_flash, level_up_flash):
-    """Menggambar antarmuka terpisah: tampilan game di kiri, panel info di kanan."""
-    info_panel_width_split = 250  # Lebar panel informasi, hindari konflik nama
-    game_view_width_split = width - info_panel_width_split # Lebar area game
-    
-    # Latar belakang panel informasi (sisi kanan)
-    info_bg_color_split = (15, 15, 25) # Dari config atau spesifik
-    cv2.rectangle(img, (game_view_width_split, 0), (width, height), info_bg_color_split, -1)
-    
-    # Garis pemisah
-    cv2.line(img, (game_view_width_split, 0), (game_view_width_split, height), config.color_schemes["primary"], 3)
-    
-    # Pengaturan panel di sisi kanan
-    panel_x_split = game_view_width_split + 5
-    panel_width_split_val = info_panel_width_split - 10 # Lebar efektif panel
-    
-    # Panel Tampilan Frekuensi (atas)
-    freq_height_split = 110
-    draw_frequency_display(img, panel_x_split, 10, panel_width_split_val, freq_height_split, sound_info)
-    
-    # Panel Info Game (tengah)
-    game_info_y_split = freq_height_split + 15
-    game_info_height_split = 160
-    draw_game_info_panel(img, panel_x_split, game_info_y_split, panel_width_split_val, game_info_height_split, score, level, fps)
-    
-    # Panel Kontrol Audio (bawah)
-    audio_y_split = game_info_y_split + game_info_height_split + 10
-    audio_height_split = height - audio_y_split - 10 # Sisa tinggi untuk panel audio
-    draw_audio_control_panel(img, panel_x_split, audio_y_split, panel_width_split_val, audio_height_split, sound_info, sound_direction)
-    
-    # Efek kilat hanya pada area game view
-    if collision_flash > 0:
-        flash_intensity_split = collision_flash / 30.0
-        # Buat overlay hanya untuk area game
-        flash_overlay_split = np.zeros((height, game_view_width_split, 3), dtype=np.uint8) 
-        flash_overlay_split[:] = config.color_schemes["danger"]
-        # Ambil slice area game dari img untuk blending
-        game_area_slice = img[:, :game_view_width_split]
-        cv2.addWeighted(game_area_slice, 1 - flash_intensity_split * 0.3, flash_overlay_split, flash_intensity_split * 0.3, 0, game_area_slice)
-        
-        if collision_flash == 30: # Saat pertama kali tabrakan
-            particles.add_particles(game_view_width_split//2, height//2, config.color_schemes["danger"], 20)
-    
-    if level_up_flash > 0:
-        flash_intensity_split = level_up_flash / 60.0
-        flash_overlay_split = np.zeros((height, game_view_width_split, 3), dtype=np.uint8)
-        flash_overlay_split[:] = config.color_schemes["success"]
-        game_area_slice = img[:, :game_view_width_split]
-        cv2.addWeighted(game_area_slice, 1 - flash_intensity_split * 0.2, flash_overlay_split, flash_intensity_split * 0.2, 0, game_area_slice)
-        
-        if level_up_flash == 60: # Saat pertama kali naik level
-            particles.add_particles(game_view_width_split//2, 100, config.color_schemes["success"], 30)
-    
-    return game_view_width_split # Kembalikan lebar area game untuk logika lain
-# ...existing code...
-\end{lstlisting}
-\item Fungsi \texttt{draw\_modern\_barriers}
-\newline Fungsi ini menggambar penghalang atas dan bawah di area permainan. Penghalang digambar dengan garis utama berwarna solid dan diberi efek glow (cahaya) di sekelilingnya untuk tampilan yang lebih modern. Efek glow dicapai dengan menggambar beberapa garis yang lebih tebal dan semi-transparan di belakang garis utama.
-\begin{lstlisting}[language=Python, caption=Fungsi draw\_modern\_barriers]
-# ...existing code...
-def draw_modern_barriers(img, width, height, top_y, bottom_y, thickness):
-    """Menggambar penghalang (barriers) dengan gaya modern dan efek glow."""
-    barrier_color = config.color_schemes["primary"]
-    glow_color = tuple(c // 2 for c in barrier_color) # Warna glow lebih gelap
-    
-    # Efek glow untuk barrier
-    for i in range(3): # Beberapa layer glow
-        glow_thickness = thickness + (3-i) * 2 # Ketebalan glow berkurang
-        alpha = 0.3 - i * 0.1 # Transparansi glow berkurang
-        overlay = img.copy()
-        # Gambar garis glow
-        cv2.line(overlay, (0, top_y), (width, top_y), glow_color, glow_thickness)
-        cv2.line(overlay, (0, bottom_y), (width, bottom_y), glow_color, glow_thickness)
-        cv2.addWeighted(img, 1-alpha, overlay, alpha, 0, img) # Blend glow ke gambar utama
-    
-    # Gambar garis barrier utama
-    cv2.line(img, (0, top_y), (width, top_y), barrier_color, thickness)
-    cv2.line(img, (0, bottom_y), (width, bottom_y), barrier_color, thickness)
-# ...existing code...
-\end{lstlisting}
-\item Fungsi \texttt{add\_ball\_trail} dan \texttt{draw\_ball\_trail}
-\newline add\_ball\_trail menyimpan histori posisi bola dalam sebuah list. draw\_ball\_trail kemudian menggunakan histori ini untuk menggambar jejak di belakang bola. Jejak digambar sebagai serangkaian garis yang menghubungkan posisi-posisi sebelumnya, dengan alpha (transparansi) dan ketebalan yang berkurang untuk segmen jejak yang lebih tua, menciptakan efek memudar.
-\begin{lstlisting}[language=Python, caption=Fungsi add\_ball_\trail dan draw\_ball\_trail]
-# ...existing code...
-def add_ball_trail(x, y):
-    """Menambahkan posisi bola saat ini ke list jejak bola (config.ball_trail)."""
-    config.ball_trail.append((x, y))
-    # Jika jejak terlalu panjang, hapus elemen tertua
-    if len(config.ball_trail) > config.max_trail_length:
-        config.ball_trail.pop(0)
-
-def draw_ball_trail(img):
-    """Menggambar jejak bola berdasarkan posisi yang tersimpan di config.ball_trail."""
-    if len(config.ball_trail) < 2: # Perlu minimal 2 titik untuk menggambar garis
-        return
-    
-    for i in range(1, len(config.ball_trail)):
-        # Alpha dan ketebalan berkurang untuk segmen jejak yang lebih tua
-        alpha_trail = i / len(config.ball_trail) 
-        thickness_trail = int(3 * alpha_trail) # Ketebalan maksimal 3px
-        
-        if thickness_trail > 0:
-            # Warna jejak dengan alpha yang disesuaikan
-            trail_color_base = config.color_schemes["accent"]
-            # Membuat warna dengan alpha (jika gambar mendukung RGBA, ini bisa lebih baik)
-            # Untuk BGR, kita bisa mencoba memudarkan warnanya
-            current_trail_color = tuple(int(c * alpha_trail) for c in trail_color_base) 
-
-            pt1 = config.ball_trail[i-1]
-            pt2 = config.ball_trail[i]
-            
-            start_point = (int(pt1[0]), int(pt1[1]))
-            end_point = (int(pt2[0]), int(pt2[1]))
-            
-            cv2.line(img, start_point, end_point, current_trail_color, thickness_trail)
-# ...existing code...
-\end{lstlisting}
-\item Fungsi \texttt{draw\_modern\_game\_over}
-\newline Fungsi ini merender layar yang muncul ketika permainan berakhir. Layar ini memiliki latar belakang gradien dan panel utama yang juga bergradien dengan border membulat. Teks "GAME OVER" ditampilkan dengan efek glow. Skor akhir pemain dan instruksi untuk keluar juga ditampilkan.
-\begin{lstlisting}[language=Python, caption=Fungsi draw\_modern\_game\_over]
-# ...existing code...
-def draw_modern_game_over(width, height, final_score, max_score_achieved):
-    """Membuat gambar untuk layar Game Over dengan skor akhir."""
-    game_over_img = np.zeros((height, width, 3), dtype=np.uint8) # Latar belakang hitam
-    
-    # Latar belakang gradien
-    visuals_utils.draw_gradient_panel(game_over_img, (0, 0), (width, height), (20, 20, 30), (40, 40, 60), 1.0)
-    
-    # Panel utama Game Over
-    panel_width_go = 400 # Hindari konflik nama
-    panel_height_go = 300
-    panel_x_go = (width - panel_width_go) // 2
-    panel_y_go = (height - panel_height_go) // 2
-    
-    visuals_utils.draw_gradient_panel(game_over_img, (panel_x_go, panel_y_go), (panel_x_go + panel_width_go, panel_y_go + panel_height_go), 
-                               (60, 60, 80), (40, 40, 60), 0.95)
-    visuals_utils.draw_rounded_rectangle(game_over_img, (panel_x_go, panel_y_go), (panel_x_go + panel_width_go, panel_y_go + panel_height_go), 
-                                  config.color_schemes["text_secondary"], 3, 15)
-    
-    # Teks "GAME OVER"
-    text_center_x_go = panel_x_go + panel_width_go // 2
-    text_y_go = panel_y_go + 80
-    
-    # Efek glow untuk judul
-    title_text_go = "GAME OVER"
-    (w_text, h_text), _ = cv2.getTextSize(title_text_go, cv2.FONT_HERSHEY_SIMPLEX, 2, 3)
-    for i in range(3): # Beberapa layer glow
-        glow_alpha = 0.4 - i*0.1
-        overlay = game_over_img.copy()
-        cv2.putText(overlay, title_text_go, (text_center_x_go - w_text//2, text_y_go), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 2, config.color_schemes["danger"], 5 + i*2) # Glow lebih tebal
-        cv2.addWeighted(game_over_img, 1-glow_alpha, overlay, glow_alpha, 0, game_over_img)
-
-    cv2.putText(game_over_img, title_text_go, (text_center_x_go - w_text//2, text_y_go), 
-               cv2.FONT_HERSHEY_SIMPLEX, 2, config.color_schemes["text_primary"], 3)
-    
-    # Tampilan Skor Akhir
-    score_y_go = text_y_go + 80
-    score_text = f"Final Score: {final_score}"
-    (w_score_text, _), _ = cv2.getTextSize(score_text, cv2.FONT_HERSHEY_SIMPLEX, 1, 2)
-    cv2.putText(game_over_img, score_text, (text_center_x_go - w_score_text//2, score_y_go), 
-               cv2.FONT_HERSHEY_SIMPLEX, 1, config.color_schemes["success"], 2)
-    
-    # Instruksi keluar
-    instruction_y_go = score_y_go + 60
-    instr_text = "Press any key to exit"
-    (w_instr_text, _), _ = cv2.getTextSize(instr_text, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
-    cv2.putText(game_over_img, instr_text, (text_center_x_go - w_instr_text//2, instruction_y_go), 
-               cv2.FONT_HERSHEY_SIMPLEX, 0.8, config.color_schemes["text_secondary"], 2)
-    
-    return game_over_img
-# ...existing code...
-\end{lstlisting}
-\item Fungsi \texttt{draw\_game\_view\_overlay}
-\newline Fungsi ini digunakan untuk menggambar informasi tambahan atau elemen UI minimalis langsung di atas area tampilan game. Contohnya adalah menampilkan nomor level saat ini di pojok kiri atas dan instruksi singkat cara bermain di bagian bawah area game. Teks ini diberi latar belakang semi-transparan agar lebih mudah terbaca.
-\begin{lstlisting}[language=Python, caption=Fungsi draw\_game\_view\_overlay]
-# ...existing code...
-def draw_game_view_overlay(img, game_view_width, height, current_level_val):
-    """Menggambar overlay minimal pada tampilan game (indikator level, instruksi)."""
-    # Indikator Level (kiri atas area game)
-    level_text_overlay = f"LEVEL {current_level_val}"
-    (w_level_text, h_level_text), _ = cv2.getTextSize(level_text_overlay, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)
-    
-    # Latar belakang semi-transparan untuk teks level
-    overlay_level_bg = img.copy() # Salin bagian gambar yang akan ditimpa
-    cv2.rectangle(overlay_level_bg, (10, 5), (10 + w_level_text + 20, 5 + h_level_text + 10), (0, 0, 0), -1) # Background hitam
-    cv2.addWeighted(img, 0.7, overlay_level_bg, 0.3, 0, img) # Blend dengan alpha
-    cv2.putText(img, level_text_overlay, (20, 5 + h_level_text + 5), cv2.FONT_HERSHEY_SIMPLEX, 0.8, config.color_schemes["text_primary"], 2)
-    
-    # Instruksi (bawah area game)
-    instruction_y_overlay = height - 60 # Posisi Y instruksi
-    instructions_list = [
-        "Use your voice to control the ball",
-        "High pitch = UP, Low pitch = DOWN"
-    ]
-    
-    # Hitung lebar maksimum teks instruksi untuk background
-    max_instr_width = 0
-    instr_line_height = 0
-    for instr in instructions_list:
-        (w_instr, h_instr), _ = cv2.getTextSize(instr, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-        max_instr_width = max(max_instr_width, w_instr)
-        if instr_line_height == 0: instr_line_height = h_instr + 5 # Ambil tinggi satu baris + padding
-
-    # Latar belakang semi-transparan untuk instruksi
-    overlay_instr_bg = img.copy()
-    bg_instr_y_start = instruction_y_overlay - instr_line_height // 2 # Sesuaikan agar teks di tengah background
-    bg_instr_y_end = bg_instr_y_start + len(instructions_list) * instr_line_height + 10
-    cv2.rectangle(overlay_instr_bg, (10, bg_instr_y_start), (10 + max_instr_width + 20, bg_instr_y_end), (0, 0, 0), -1)
-    cv2.addWeighted(img, 0.7, overlay_instr_bg, 0.3, 0, img)
-    
-    # Gambar teks instruksi
-    for i, instr in enumerate(instructions_list):
-        cv2.putText(img, instr, (20, instruction_y_overlay + i * instr_line_height), cv2.FONT_HERSHEY_SIMPLEX, 0.5, config.color_schemes["text_secondary"], 1)
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-\end{itemize}
-\subsubsection{Sistem Partikel \texttt{particles.py}}
-Sistem partikel dirancang untuk menciptakan efek visual dinamis. Ini dicapai dengan mengelola objek-objek individual yang disebut partikel.
-\begin{itemize}
-\item Representasi Partikel (\texttt{Class Particle})
-\newline Setiap partikel dalam sistem direpresentasikan sebagai sebuah instance dari Class Particle. Class ini mendefinisikan atribut-atribut yang menentukan keadaan dan penampilan setiap partikel:
-\begin{itemize}
-\item x, y: Menyatakan koordinat posisi partikel pada layar.
-\item vx, vy: Menyatakan komponen kecepatan horizontal dan vertikal partikel, yang menentukan arah dan laju pergerakannya.
-\item color: Menyimpan tuple BGR yang merepresentasikan warna partikel.
-\item size: Menyatakan ukuran awal partikel.
-\item life: Menyatakan sisa masa hidup partikel dalam satuan frame. Partikel akan hilang setelah life mencapai nol.
-\item max\_life: Menyimpan nilai masa hidup awal partikel, yang digunakan untuk perhitungan efek visual seperti perubahan ukuran atau transparansi seiring waktu.
-\end{itemize}
-\begin{lstlisting}[language=Python, caption=Class Particle]
-# ...existing code...
-class Particle:
-    """Kelas untuk merepresentasikan satu partikel dengan posisi, kecepatan, warna, ukuran, dan masa hidup."""
-    def __init__(self, x, y, vx, vy, color, size, life):
-        self.x = x          # Posisi x
-        self.y = y          # Posisi y
-        self.vx = vx        # Kecepatan horizontal
-        self.vy = vy        # Kecepatan vertikal
-        self.color = color  # Warna partikel (BGR tuple)
-        self.size = size    # Ukuran awal partikel
-        self.life = life    # Masa hidup partikel (dalam frame)
-        self.max_life = life # Masa hidup maksimum untuk perhitungan alpha
-# ...existing code...
-\end{lstlisting}
-\item Pembaruan Status Partikel (Method \texttt{update} dalam \texttt{Class Particle})
-\newline Method update dipanggil untuk setiap partikel pada setiap frame. Metode ini melakukan:
-\begin{itemize}
-\item Memperbarui posisi partikel (self.x, self.y) berdasarkan kecepatannya (self.vx, self.vy).
-\item Menerapkan efek gravitasi sederhana dengan menambahkan nilai konstan (0.1) ke kecepatan vertikal (self.vy), membuat partikel cenderung jatuh ke bawah.
-\item Mengurangi masa hidup partikel (self.life) sebanyak satu unit.
-\end{itemize}
-\begin{lstlisting}[language=Python, caption=Method update]
-# ...existing code...
-    def update(self):
-        """Memperbarui posisi dan masa hidup partikel."""
-        self.x += self.vx
-        self.y += self.vy
-        self.vy += 0.1  # Efek gravitasi sederhana
-        self.life -= 1  # Kurangi masa hidup
-# ...existing code...
-\end{lstlisting}
-\item Pengecekan Status Hidup Partikel (Method is\_alive dalam \texttt{Class Particle})
-\newline Method is\_alive mengembalikan nilai boolean yang menunjukkan apakah partikel masih aktif. Partikel dianggap hidup jika nilai self.life lebih besar dari nol.
-\begin{lstlisting}[language=Python, caption=Method is\_alive]
-# ...existing code...
-    def is_alive(self):
-        """Mengembalikan True jika partikel masih hidup, False jika tidak."""
-        return self.life > 0
-# ...existing code...
-\end{lstlisting}
-\item Penggambaran Partikel (Method draw dalam \texttt{Class Particle})
-\newline Method draw bertanggung jawab untuk menggambar partikel pada gambar (img) yang diberikan, tetapi hanya jika partikel tersebut masih hidup (self.is\_alive() mengembalikan True).
-\begin{itemize}
-\item Ukuran partikel saat digambar (current\_size) dihitung secara proporsional terhadap sisa masa hidupnya relatif terhadap masa hidup awalnya (self.life / self.max\_life), sehingga partikel akan tampak mengecil seiring waktu.
-\item Partikel digambar sebagai lingkaran yang diisi (cv2.circle dengan parameter ketebalan -1) menggunakan warna dan ukuran yang telah dihitung.
-\end{itemize}
-\begin{lstlisting}[language=Python, caption=Method draw]
-# ...existing code...
-    def draw(self, img):
-        """Menggambar partikel pada gambar 'img' jika masih hidup."""
-        if self.is_alive():
-            # Ukuran dan alpha partikel berkurang seiring berkurangnya masa hidup
-            alpha = self.life / self.max_life 
-            current_size = int(self.size * alpha) # Ukuran mengecil
-            
-            if current_size > 0:
-                # Untuk menggambar dengan transparansi alpha, perlu blending manual jika tidak menggunakan RGBA image
-                # Di sini, kita hanya menggambar lingkaran solid dengan ukuran yang disesuaikan
-                # Jika 'img' adalah RGBA, blending bisa lebih canggih
-                cv2.circle(img, (int(self.x), int(self.y)), current_size, self.color, -1)
-# ...existing code...
-\end{lstlisting}
-\item Menambahkan Sekumpulan Partikel Baru (Fungsi \texttt{add\_particles})
-\newline Fungsi add\_particles digunakan untuk memunculkan sejumlah (count) partikel baru pada posisi (x, y) dengan warna (color) tertentu.
-\newline Untuk setiap partikel yang dibuat:
-\begin{itemize}
-\item Kecepatan horizontal (vx) diinisialisasi secara acak dalam rentang -3 hingga 3.
-\item Kecepatan vertikal (vy) diinisialisasi secara acak dalam rentang -5 hingga -1, memberikan efek semburan awal ke atas.
-\item Ukuran (size) diinisialisasi secara acak antara 2 hingga 5 piksel.
-\item Masa hidup (life) diinisialisasi secara acak antara 20 hingga 40 frame.
-\end{itemize}
-Partikel-partikel baru ini kemudian ditambahkan ke list global config.particles.
-\begin{lstlisting}[language=Python, caption=Fungsi add\_particles]
-# ...existing code...
-def add_particles(x, y, color, count=10):
-    """Menambahkan sejumlah 'count' partikel baru ke list global config.particles."""
-    for _ in range(count):
-        # Kecepatan acak
-        vx = np.random.uniform(-3, 3) 
-        vy = np.random.uniform(-5, -1) # Awalnya bergerak ke atas
-        # Ukuran dan masa hidup acak
-        size = np.random.randint(2, 6)
-        life = np.random.randint(20, 40) # Masa hidup dalam frame
-        config.particles.append(Particle(x, y, vx, vy, color, size, life))
-# ...existing code...
-\end{lstlisting}
-\item Memperbarui Semua Partikel Aktif (Fungsi \texttt{update\_particles})
-\newline Fungsi update\_particles dipanggil pada setiap frame untuk mengelola seluruh kumpulan partikel.
-\newline Pertama, ia membuat list baru config.particles yang hanya berisi partikel-partikel yang masih hidup (menggunakan list comprehension dan metode is\_alive). Ini secara efektif menghapus partikel yang sudah mati. Kemudian, ia mengiterasi melalui partikel-partikel yang masih hidup tersebut dan memanggil metode update() pada masing-masing partikel.
-\begin{lstlisting}[language=Python, caption=Fungsi update\_particles]
-# ...existing code...
-def update_particles():
-    """Memperbarui semua partikel dalam list global dan menghapus yang sudah mati."""
-    # Buat list baru yang hanya berisi partikel yang masih hidup
-    config.particles = [p for p in config.particles if p.is_alive()]
-    # Update setiap partikel yang masih hidup
-    for particle in config.particles:
-        particle.update()
-# ...existing code...
-\end{lstlisting}
-\item Menggambar Semua Partikel Aktif (Fungsi \texttt{draw\_particles})
-\newline Fungsi draw\_particles dipanggil pada setiap frame untuk merender semua partikel yang aktif ke gambar (img) yang diberikan. Ia mengiterasi melalui list config.particles dan memanggil metode draw(img) pada setiap partikel.
-\begin{lstlisting}[language=Python, caption=Fungsi draw\_particles]
-# ...existing code...
-def draw_particles(img):
-    """Menggambar semua partikel aktif pada gambar 'img'."""
-    for particle in config.particles:
-        particle.draw(img)
-# ...existing code...
-\end{lstlisting}
-\end{itemize}
-\section{Hasil Program}
-Berdasarkan hasil implementasi, program berhasil mendeteksi suara bass dan treble pengguna serta menggerakkan bola berdasarkan suara tersebut.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figure/layar-awal-suaraku-terbang.png}
-    \caption{Layar awal}
-    \label{fig:my_label}
-\end{figure}
-
-Ketika pengguna membuka filter untuk pertama kali maka akan ditampilkan judul atau nama dari filter yaitu "Suaraku Terbang". Selain itu, ditampilkan juga informasi singkat untuk menjalankan filter, yaitu jika pengguna mengeluarkan suara bernada tinggi (treble) maka bola akan bergerak ke atas, sedangkan jika pengguna mengeluarkan suara bernada rendah (bass) maka bola akan bergerak ke bawah.
-
-\begin{figure}[h!]
-	\centering
-	\begin{subfigure}{0.4\textwidth}
-		\centering
-		\def\svgwidth{\columnwidth}
-		\includegraphics[width=1\textwidth]{Figure/permainan-utama.png}
-		\caption{Antarmuka utama}
-		\label{fig:aug-1}
-	\end{subfigure}
-	\qquad %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-	%(or a blank line to force the subfigure onto a new line)
-	\begin{subfigure}[b]{0.4\textwidth}
-		\centering
-		\def\svgwidth{\columnwidth}
-		\includegraphics[width=1\textwidth]{Figure/game-over.png}
-		\caption{Game over}
-		\label{fig:aug-2}
-	\end{subfigure}
-	\caption{Demonstrasi filter suaraku terbang}\label{fig:aug}
-\end{figure}
-Antarmuka utama selama menjalankan filter dibagi menjadi 2 kolom. Kolom di sisi kiri layar terdapat video real-time dari webcam serta permainan bola dan penghalangnya yang menjadi fitur utama filter serta di wajah pengguna terdapat efek kacamata. Sedangkan di sisi kanan layar terdapat panel informasi yang menampilkan data frekuensi suara pengguna, jumlah skor, level saat ini, serta arah bola saat ini. Ketika pengguna berhasil menggerakkan bola dari ujung kiri ke ujung kanan, maka pengguna akan mendapatkan level baru dengan jarak kedua penghalang yang lebih kecil. Jaraknya akan terus mengecil hingga maksimal pengguna mencapai level 5.
-
-Ketika bola bergerak dan menyentuh penghalang atas atau bawah, maka permainan berakhir. Pengguna diberikan layar akhir berupa judul "Game Over" dan skor yang telah diraih oleh pengguna.
-
-Untuk demonstrasi lebih lengkapnya dapat dilihat di video youtube melalui link berikut: \href{https://youtu.be/gLfBfn93XxQ?si=rfyxxNq5SirJSzCE}{Suaraku-Terbang}
-
-\section{Kesimpulan}
-Proyek "Suaraku Terbang" berhasil dikembangkan dengan memanfaatkan frekuensi suara sebagai mekanisme kontrol utama yang terinspirasi dari konsep dasar permainan Flappy Bird. Dengan menggunakan bahasa pemrograman Python dan library seperti \texttt{sounddevice} untuk akuisisi audio secara real-time, \texttt{numpy} untuk analisis frekuensi, \texttt{OpenCV} untuk visualisasi dan pemrosesan gambar, serta \texttt{time} dan \texttt{threading} untuk manajemen waktu. Tujuan dari proyek ini adalah menggerakkan objek berbentuk bola secara vertikal (naik untuk frekuensi tinggi dan turun untuk frekuensi rendah) sebagai respons terhadap frekuensi suara, terdapat implementasi pembatas atas dan bawah yang menyempit seiring peningkatan level, serta kondisi kalah ketika bola menyentuh pembatas.
-
-\subsection{Saran Pengembangan}
+\subsection{Alur Kerja Utama Aplikasi}
 \begin{enumerate}
-    \item Menambahkan fitur kalibrasi agar sistem dapat menyesuaikan sensitivitasnya terhadap karakteristik vokal pengguna yang berbeda, dan kondisi kebisingan lingkungan. Ini akan meningkatkan akurasi kontrol dan aksesibilitas.
-    \item Penambahan variasi rintangan seperti rintangan bergerak, rintangan yang muncul secara acak, atau zona khusus yang memberikan efek tertentu pada bola. 
-    \item Menambahkan kontrol berbasis amplitudo suara, sensitivitas gerakan bola bisa dipengaruhi oleh amplitudo (kenyaringan) suara. Misalnya, suara frekuensi tinggi yang lebih nyaring membuat bola naik lebih cepat.
-    \item Meningkatkan eksplorasi untuk mediapipe untuk visualisasi spektrum suara secara real-time atau fitur interaktif lainnya yang relevan dengan multimedia.
+\item Inisialisasi kamera dan komponen tracking
+\item Capture frame dari webcam secara real-time
+\item Deteksi tangan dan ekstraksi landmark jari
+\item Deteksi wajah dan posisi center wajah
+\item Proses posisi dan kondisi tangan untuk melakukan aksi
+\item Update canvas dengan stroke baru atau pergerakan wajah
+\item Render hasil akhir dengan overlay UI
+\item Simpan atau reset canvas berdasarkan input pengguna
 \end{enumerate}
 
-\newpage
-\bibliographystyle{IEEEtran}
-\bibliography{Referensi}
+\subsection{Modul Inti}
+\subsubsection{Konfigurasi Global (\texttt{configurations.py})}
+Modul ini menyimpan semua pengaturan aplikasi yang dapat dimodifikasi:
+
+\begin{lstlisting}[language=Python, caption=Konfigurasi utama aplikasi]
+# Display configuration
+WINDOW_NAME = "Paint LiveCam"
+WINDOW_SIZE = (860, 640)
+
+# Hand tracking configuration
+MAX_HANDS = 1
+HAND_DETECTION_CONFIDENCE = 0.5
+HAND_TRACKING_CONFIDENCE = 0.5
+
+# Face tracking configuration
+FACE_DETECTION_CONFIDENCE = 0.5
+
+# Drawing settings
+DEFAULT_DRAWING_COLOR = (0, 255, 255)  # Yellow
+DEFAULT_LINE_THICKNESS = 4
+CANVAS_OPACITY = 1
+
+# Available drawing colors
+DRAWING_COLORS = {
+    "Yellow": (0, 255, 255),
+    "Blue": (255, 0, 0),
+    "Green": (0, 255, 0),
+    "Red": (0, 0, 255),
+    "Purple": (255, 0, 255),
+    "Orange": (0, 165, 255),
+    "White": (255, 255, 255),
+    "Black": (0, 0, 0),
+}
+\end{lstlisting}
+
+\subsubsection{Hand Tracking (\texttt{hand\_tracker.py})}
+Modul ini bertugas untuk mendeteksi dan melacak posisi tangan menggunakan library MediaPipe:
+
+\begin{lstlisting}[language=Python, caption=Implementasi hand tracking]
+class HandTracker:
+    def __init__(self):
+        self.mp_hands = mp.solutions.hands
+        self.hands = self.mp_hands.Hands(
+            static_image_mode=False,
+            max_num_hands=config.MAX_HANDS,
+            min_detection_confidence=config.HAND_DETECTION_CONFIDENCE,
+            min_tracking_confidence=config.HAND_TRACKING_CONFIDENCE
+        )
+    
+    def find_hands(self, img, draw=None):
+        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        self.results = self.hands.process(imgRGB)
+        
+        if self.results.multi_hand_landmarks:
+            for hand_landmarks in self.results.multi_hand_landmarks:
+                self.mp_drawing.draw_landmarks(img, hand_landmarks, 
+                                             self.mp_hands.HAND_CONNECTIONS)
+        return img
+    
+    def find_position(self, img):
+        hand_landmarks = []
+        if self.results.multi_hand_landmarks:
+            my_hand = self.results.multi_hand_landmarks[0]
+            h, w, _ = img.shape
+            for id, lm in enumerate(my_hand.landmark):
+                cx, cy = int(lm.x * w), int(lm.y * h)
+                hand_landmarks.append([id, cx, cy])
+        return hand_landmarks
+\end{lstlisting}
+
+\subsubsection{Face Tracking (\texttt{face\_tracker.py})}
+Modul ini mendeteksi wajah dan memberikan informasi posisi untuk fitur gambar mengikuti wajah:
+
+\begin{lstlisting}[language=Python, caption=Implementasi face tracking]
+class FaceTracker:
+    def __init__(self):
+        self.mp_face_detection = mp.solutions.face_detection
+        self.face_detection = self.mp_face_detection.FaceDetection(
+            min_detection_confidence=config.FACE_DETECTION_CONFIDENCE
+        )
+    
+    def find_faces(self, img, draw=None):
+        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        self.results = self.face_detection.process(imgRGB)
+        
+        faces = []
+        if self.results.detections:
+            h, w, c = img.shape
+            for detection in self.results.detections:
+                bbox = detection.location_data.relative_bounding_box
+                x, y, width, height = int(bbox.xmin * w), int(bbox.ymin * h), \
+                                    int(bbox.width * w), int(bbox.height * h)
+                
+                face = {
+                    'bbox': (x, y, width, height),
+                    'center': (x + width//2, y + height//2),
+                    'size': (width, height)
+                }
+                faces.append(face)
+                
+                if draw:
+                    cv2.rectangle(img, (x, y), (x + width, y + height), (0, 255, 0), 2)
+        
+        return img, faces
+\end{lstlisting}
+
+\subsubsection{Drawing Canvas (\texttt{drawing\_canvas.py})}
+Modul ini mengelola canvas drawing, UI, dan logika fitur garis mengikuti wajah:
+
+\begin{lstlisting}[language=Python, caption=Ekstraksi posisi jari dan gesture recognition]
+    def _extract_finger_positions(self, landmarks):
+    """Extract index tip, index base, and middle tip positions from hand landmarks."""
+    positions = {'index_tip': None, 'middle_tip': None, 'middle_one': None}
+    
+    for landmark_id, x, y in landmarks:
+        if landmark_id == 8:    # Index finger tip
+            positions['index_tip'] = (x, y)
+        elif landmark_id == 12:  # middle finger tip
+            positions['middle_tip'] = (x, y)
+        elif landmark_id == 11: # middle finger book
+            positions['middle_one'] = (x, y)
+    
+    return positions
+
+    def _process_hand_input(self, positions):
+    """Process hand gestures for drawing and UI interaction."""
+    # Handle middle finger UI interaction
+    if positions['middle_tip']:
+        self.canvas.process_finger_input(positions['middle_tip'], 20)
+    
+    # Handle index finger drawing (only when tip is above base)
+    if positions['index_tip'] and positions['middle_tip'] and positions['middle_one']:
+        # disable drawing when V gesture is detected
+        if positions['middle_tip'][1] > positions['middle_one'][1]:
+            self.canvas.process_finger_input(positions['index_tip'], 8)
+        else:
+            self.canvas.stop_drawing(positions['index_tip'])
+\end{lstlisting}
+
+\paragraph{Garis Mengikuti Wajah}
+Implementasi fitur dimana gambar dapat mengikuti pergerakan wajah:
+
+\begin{lstlisting}[language=Python, caption=Implementasi face-following drawings]
+def update_with_face_movement(self, face_center):
+    if not self.last_face_center or not face_center or not self.face_following_segments:
+        self.last_face_center = face_center
+        return
+    
+    # Calculate face movement offset
+    dx = face_center[0] - self.last_face_center[0]
+    dy = face_center[1] - self.last_face_center[1]
+    
+    # Move all face-following segments
+    for segment_index in self.face_following_segments:
+        if segment_index < len(self.drawing_segments):
+            segment = self.drawing_segments[segment_index]
+            segment['points'] = [(x + dx, y + dy) for x, y in segment['points']]
+    
+    self.last_face_center = face_center
+    self.draw_on_canvas()
+
+def stop_drawing(self, end_point=None):
+    if not self.is_drawing or not self.drawing_segments:
+        self.is_drawing = False
+        return
+    
+    current_segment = self.drawing_segments[-1]
+    last_point = end_point if end_point else current_segment['points'][-1]
+    
+    if last_point:
+        # Check if line ended near any face to set future line mode
+        face_detected = any(
+            face['bbox'][0] <= last_point[0] <= face['bbox'][0] + face['bbox'][2] and
+            face['bbox'][1] <= last_point[1] <= face['bbox'][1] + face['bbox'][3]
+            for face in self._current_faces
+        )
+        
+        # Update face mode for future lines
+        new_mode = "following" if face_detected else "still"
+        if new_mode != self.current_face_mode:
+            self.current_face_mode = new_mode
+            print(f"Face mode: {new_mode}")
+\end{lstlisting}
+
+\paragraph{Kontrol UI}
+Tombol untuk beberapa aksi dengan ujung jari tengah:
+
+\begin{lstlisting}[language=Python, caption=Implementasi UI button system]
+class Button:
+    def __init__(self, x, y, width, height, color, text, action):
+        self.x, self.y, self.width, self.height = x, y, width, height
+        self.color, self.text, self.action = color, text, action
+        self.is_pressed = False
+    
+    def is_clicked(self, point):
+        return (self.x <= point[0] <= self.x + self.width and 
+                self.y <= point[1] <= self.y + self.height)
+    
+    def draw(self, img):
+        # Button background (darker when pressed)
+        btn_color = (self.color[0] - 40, self.color[1] - 40, self.color[2] - 40) \
+                   if self.is_pressed else self.color
+        cv2.rectangle(img, (self.x, self.y), 
+                     (self.x + self.width, self.y + self.height), btn_color, cv2.FILLED)
+        
+        # Center text on button
+        text_size = cv2.getTextSize(self.text, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 2)[0]
+        text_x = self.x + (self.width - text_size[0]) // 2
+        text_y = self.y + (self.height + text_size[1]) // 2
+        cv2.putText(img, self.text, (text_x, text_y), 
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+        return img
+\end{lstlisting}
+
+\subsubsection{Sound Manager (\texttt{sound\_manager.py})}
+Modul ini mengelola efek audio selama interaksi pengguna:
+
+\begin{lstlisting}[language=Python, caption=Implementasi sound management]
+import pygame
+import os
+
+pygame.mixer.init()
+
+# Load sounds
+sounds = {
+    'click': pygame.mixer.Sound("sfx/click.mp3"),
+    'writing': pygame.mixer.Sound("sfx/writing.mp3"),
+}
+
+def play_background():
+    pygame.mixer.music.load("sfx/backsound.mp3")
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.5)
+
+def play_click():
+    if 'click' in sounds:
+        sounds['click'].set_volume(0.5)
+        sounds['click'].play()
+
+def play_writing():
+    global writingChannel
+    if not writingChannel or not writingChannel.get_busy():
+        sounds['writing'].set_volume(0.5)
+        writingChannel = sounds['writing'].play()
+\end{lstlisting}
+
+\section{Fitur Utama Aplikasi}
+Aplikasi Paint LiveCam memiliki berbagai fitur interaktif yang menarik. Salah satu fitur utama adalah kemampuan menggambar menggunakan jari telunjuk, di mana sistem mendeteksi posisi ujung jari telunjuk di atas pangkal jari sebagai kondisi untuk memulai proses menggambar. Selain itu, terdapat fitur inovatif yang memungkinkan gambar yang dibuat di dekat wajah pengguna untuk mengikuti pergerakan wajah secara real-time, memberikan pengalaman menggambar yang unik dan dinamis.
+
+Aplikasi ini juga mendukung berbagai pilihan warna dengan menyediakan delapan opsi warna yang dapat dipilih menggunakan ujung jari tengah. Pengguna dapat menyesuaikan ketebalan garis dengan memilih dari empat tingkat ketebalan, yaitu Thin, Medium, Thick, dan Very Thick, sesuai kebutuhan. Untuk menyimpan hasil karya, aplikasi menyediakan fitur penyimpanan yang memungkinkan pengguna menyimpan gambar dengan latar belakang kamera dalam format PNG yang dilengkapi dengan timestamp.
+
+Selain fitur visual, aplikasi ini juga dilengkapi dengan feedback audio yang memberikan efek suara saat pengguna menggambar atau mengklik tombol UI, sehingga meningkatkan interaktivitas dan pengalaman pengguna secara keseluruhan.
+
+\section{Kesimpulan}
+
+\FloatBarrier
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figure/demo.png}
+        \caption{Tampilan Hasil save Gambar}
+        \label{fig:demo_image}
+    \end{figure}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figure/ui.png}
+        \caption{Tampilan Aplikasi Paint LiveCam}
+        \label{fig:ui_image}
+    \end{figure}
+\end
+
+Aplikasi Paint LiveCam berhasil mengimplementasikan sistem drawing interaktif menggunakan computer vision dengan fitur-fitur inovatif seperti face-following drawings. Aplikasi ini mendemonstrasikan integrasi sukses antara hand tracking, face detection, dan real-time image processing untuk menciptakan pengalaman pengguna yang intuitif dan menyenangkan. Fitur-fitur seperti gesture recognition, multi-color support, dan audio feedback menambah nilai interaktif dari aplikasi ini.
+
+Proyek ini menunjukkan potensi besar penggunaan teknologi computer vision dalam aplikasi kreatif dan interaktif, serta memberikan fondasi yang solid untuk pengembangan lebih lanjut dalam bidang augmented reality dan human-computer interaction.
+
+\section{Referensi}
+\begin{enumerate}
+\item MediaPipe Documentation. \textit{Hand Landmarks Detection}. Google AI. \url{https://google.github.io/mediapipe/solutions/hands.html}
+\item MediaPipe Documentation. \textit{Face Detection}. Google AI. \url{https://google.github.io/mediapipe/solutions/face_detection.html}
+\item OpenCV Documentation. \textit{OpenCV-Python Tutorials}. \url{https://docs.opencv.org/master/d6/d00/tutorial_py_root.html}
+\item Zhang, F., et al. (2020). \textit{MediaPipe: A Framework for Building Perception Pipelines}. Google Research.
+\end{enumerate}
+
 \end{document}

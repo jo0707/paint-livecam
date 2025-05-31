@@ -72,13 +72,11 @@ The application uses:
 
 ### Week 3 (19 - 25 Mei 2025)
 
-TODO
-- Implementasi Optical Flow Lucas-Kanade untuk pelacakan jari
-- sfx untuk menggambar dan tombol
-
+-
 
 ### Week 4 (26 - 30 Mei 2025)
 
-- Fitur save menyimpan kamera dan gambar
+- Fitur save menyimpan kamera dan hasil gambaran
+- sfx background, menggambar dan tombol
 
 ## 📚 Referensi

@@ -16,7 +16,7 @@ class PaintLivecam:
     def __init__(self):
         """Initialize camera, trackers, and canvas."""
         # Initialize camera
-        self.cap = cv2.VideoCapture(1)
+        self.cap = cv2.VideoCapture(config.CAMERA_INDEX)
         if not self.cap.isOpened():
             raise RuntimeError("Failed to open camera")
         
@@ -47,7 +47,8 @@ class PaintLivecam:
         print("="*50)
         print("🎨 Drawing:")
         print("   • Index finger (tip above base) = Draw")
-        print("   • Pinky finger = Click UI buttons")
+        print("   • V gesture (index and middle up) = Pause draw")
+        print("   • Middle finger tip = Click UI buttons")
         print("\n🎭 Features:")
         print("   • Drawings follow your face movement")
         print("   • Multiple colors and brush sizes")
@@ -57,16 +58,16 @@ class PaintLivecam:
         print("="*50 + "\n")
     
     def _extract_finger_positions(self, landmarks):
-        """Extract index tip, index base, and pinky tip positions from hand landmarks."""
-        positions = {'index_tip': None, 'index_base': None, 'pinky_tip': None}
+        """Extract index tip, index base, and middle tip positions from hand landmarks."""
+        positions = {'index_tip': None, 'middle_tip': None, 'middle_one': None}
         
         for landmark_id, x, y in landmarks:
             if landmark_id == 8:    # Index finger tip
                 positions['index_tip'] = (x, y)
-            elif landmark_id == 7:  # Index finger base (MCP)
-                positions['index_base'] = (x, y)
-            elif landmark_id == 20: # Pinky finger tip
-                positions['pinky_tip'] = (x, y)
+            elif landmark_id == 12:  # middle finger tip
+                positions['middle_tip'] = (x, y)
+            elif landmark_id == 9: # middle finger book
+                positions['middle_one'] = (x, y)
         
         return positions
     
@@ -74,18 +75,19 @@ class PaintLivecam:
         """Draw visual indicators on detected finger positions."""
         if positions['index_tip']:
             cv2.circle(img, positions['index_tip'], 10, (255, 0, 255), cv2.FILLED)
-        if positions['pinky_tip']:
-            cv2.circle(img, positions['pinky_tip'], 8, (0, 255, 255), cv2.FILLED)
+        if positions['middle_tip']:
+            cv2.circle(img, positions['middle_tip'], 8, (0, 255, 255), cv2.FILLED)
     
     def _process_hand_input(self, positions):
         """Process hand gestures for drawing and UI interaction."""
-        # Handle pinky finger UI interaction
-        if positions['pinky_tip']:
-            self.canvas.process_finger_input(positions['pinky_tip'], 20)
+        # Handle middle finger UI interaction
+        if positions['middle_tip']:
+            self.canvas.process_finger_input(positions['middle_tip'], 20)
         
         # Handle index finger drawing (only when tip is above base)
-        if positions['index_tip'] and positions['index_base']:
-            if positions['index_tip'][1] < positions['index_base'][1]:  # Tip above base
+        if positions['index_tip'] and positions['middle_tip'] and positions['middle_one']:
+            # disable drawing when V gesture is detected
+            if positions['middle_tip'][1] > positions['middle_one'][1]:
                 self.canvas.process_finger_input(positions['index_tip'], 8)
             else:
                 self.canvas.stop_drawing(positions['index_tip'])

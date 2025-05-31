@@ -104,12 +104,12 @@ class DrawingCanvas:
         print(f"Thickness: {name}")
     
     def process_finger_input(self, point, finger_id):
-        """Process finger input for drawing (index finger) or UI interaction (pinky finger)."""
+        """Process finger input for drawing (index finger) or UI interaction (middle finger)."""
         # Update cooldown
         if self.button_cooldown > 0:
             self.button_cooldown -= 1
         
-        # Pinky finger (20) for UI buttons
+        # Middle finger tip for UI buttons
         if finger_id == 20 and self.show_ui and self.button_cooldown == 0:
             for button in self.buttons:
                 if button.is_clicked(point):
