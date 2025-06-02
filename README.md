@@ -2,6 +2,11 @@
 
 An interactive application that allows you to draw on your webcam feed using your finger. The app tracks your index finger and enables drawing when your finger tip is positioned above your finger base. If your drawings end up in front of your face, they will automatically follow your face movements.
 
+Video Demo: [Paint LiveCam - YouTube](https://youtu.be/8lGBe_WSc6Q)
+
+<img src="report/Figure/ui.png" alt="Demo Image" width="600">
+
+
 ## Features
 
 -   Hand tracking to detect finger positions
@@ -20,7 +25,7 @@ An interactive application that allows you to draw on your webcam feed using you
 ## Installation
 
 1. Clone this repository
-2. Install the required dependencies:
+2. Install the required dependencies (venv recommended):
     ```
     pip install -r requirements.txt
     ```
@@ -36,7 +41,8 @@ python main.py
 ### Controls:
 
 -   Position your index finger tip above its base to start drawing
--   Lower your finger tip below its base to stop drawing
+-   Lower your middle finger tip below its base to stop drawing
+-   Use middle finger tip to click button
 -   Press 'q' to quit the application
 
 ## How It Works
@@ -48,7 +54,7 @@ The application uses:
 -   OpenCV for image processing and visualization
 -   A custom drawing canvas that updates in real-time
 
-## 👨‍💻 Anggota Kelompok
+## 👨‍💻 Team
 
 | Nama Lengkap        | NIM       | GitHub ID |
 | ------------------- | --------- | --------- |
@@ -56,7 +62,7 @@ The application uses:
 
 ---
 
-## 📘 Logbook Mingguan
+## 📘 Weekly Logbook (Indonesian)
 
 ### Week 1 (5 - 11 Mei 2025)
 
@@ -79,4 +85,6 @@ The application uses:
 - Fitur save menyimpan kamera dan hasil gambaran
 - sfx background, menggambar dan tombol
 
-## 📚 Referensi
+### Week 5 (02 Juni 2025)
+
+- Demo Video
